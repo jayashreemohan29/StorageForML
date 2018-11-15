@@ -6,6 +6,7 @@ import random
 import shutil
 import time
 import warnings
+import subprocess
 
 import torch
 import torch.nn as nn
@@ -63,14 +64,16 @@ parser.add_argument('--seed', default=None, type=int,
                     help='seed for initializing training. ')
 parser.add_argument('--gpu', default=None, type=int,
                     help='GPU id to use.')
-
+parser.add_argument('--run', default='1', type=str,
+                    help='Run number or run info that defines the result dir.')
 best_acc1 = 0
 
 
 def main():
-    global args, best_acc1
+    global args, best_acc1, result_dir
     args = parser.parse_args()
-
+    result_dir = "/dev/shm/results/run-"
+    start_prgm = time.time()
     if args.seed is not None:
         random.seed(args.seed)
         torch.manual_seed(args.seed)
@@ -91,6 +94,27 @@ def main():
         dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
                                 world_size=args.world_size)
 
+    # Create the result directory
+    result_dir += args.run
+    if not os.path.exists(result_dir):
+	os.makedirs(result_dir)
+
+    command = "top -b > "
+    command += result_dir + "/top-model.txt &"
+    subprocess.call(command, shell=True)
+    command = "iostat -d 1 -p sda > "
+    command += result_dir + "/iostat-model.txt &"
+    subprocess.call(command, shell=True)
+    command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
+    command += result_dir + "/blktrace-model.txt &"
+    command = "nvidia-smi -l 1  > "
+    command += result_dir + "/gpu-model.txt &"
+    subprocess.call(command, shell=True)
+
+    # Let's print memory util before creating the model:
+    print("\nMemory before model creation : ")
+    subprocess.call("free -m", shell=True)
+
     # create model
     if args.pretrained:
         print("=> using pre-trained model '{}'".format(args.arch))
@@ -110,6 +134,11 @@ def main():
             model.cuda()
         else:
             model = torch.nn.DataParallel(model).cuda()
+
+    print("\nMemory after creating model : ")
+    subprocess.call("free -m", shell=True)
+
+
 
     # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss().cuda(args.gpu)
@@ -172,14 +201,37 @@ def main():
         validate(val_loader, model, criterion)
         return
 
+    subprocess.call("sudo kill $(pgrep blk)", shell=True)
+    subprocess.call("kill $(pgrep iostat)", shell=True)
+    subprocess.call("kill $(pgrep top)", shell=True)
+    subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
+
+
+
     for epoch in range(args.start_epoch, args.epochs):
         if args.distributed:
             train_sampler.set_epoch(epoch)
         adjust_learning_rate(optimizer, epoch)
 
         # train for one epoch
+        print('Epoch {epoch} starts at {time.time()}')
+	command = "top -b > "
+        command += result_dir + "/top-train.txt &"
+        subprocess.call(command, shell=True)
+	command = "iostat -d 1 -p sda > "
+        command += result_dir + "/iostat-train.txt &"
+        subprocess.call(command, shell=True)
+	command = "nvidia-smi -l 1  > "
+        command += result_dir + "/gpu-train.txt &"
+        subprocess.call(command, shell=True)
+	command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
+        command += result_dir + "/blktrace-train.txt &"
+        subprocess.call(command, shell=True)
         train(train_loader, model, criterion, optimizer, epoch)
-
+	subprocess.call("sudo kill $(pgrep blk)", shell=True)
+        subprocess.call("kill $(pgrep iostat)", shell=True)
+        subprocess.call("kill $(pgrep top)", shell=True)
+        subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
         # evaluate on validation set
         acc1 = validate(val_loader, model, criterion)
 
@@ -194,10 +246,14 @@ def main():
             'optimizer' : optimizer.state_dict(),
         }, is_best)
 
+	end_prgm = time.time()
+	print("\nTotal time taken : {end_prgm - start_prgm}")
+
 
 def train(train_loader, model, criterion, optimizer, epoch):
     batch_time = AverageMeter()
     data_time = AverageMeter()
+    to_gpu_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
     top5 = AverageMeter()
@@ -213,6 +269,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
         if args.gpu is not None:
             input = input.cuda(args.gpu, non_blocking=True)
         target = target.cuda(args.gpu, non_blocking=True)
+        to_gpu_time.update(time.time() - end)
 
         # compute output
         output = model(input)
@@ -237,11 +294,12 @@ def train(train_loader, model, criterion, optimizer, epoch):
             print('Epoch: [{0}][{1}/{2}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                   'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+ 		  'GPU {to_gpu_time.val:.3f} ({to_gpu_time.avg:.3f})\t'
+	          'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                   'Acc@1 {top1.val:.3f} ({top1.avg:.3f})\t'
                   'Acc@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
                    epoch, i, len(train_loader), batch_time=batch_time,
-                   data_time=data_time, loss=losses, top1=top1, top5=top5))
+                   data_time=data_time, to_gpu_time=to_gpu_time, loss=losses, top1=top1, top5=top5))
 
 
 def validate(val_loader, model, criterion):
