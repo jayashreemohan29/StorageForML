@@ -105,6 +105,9 @@ def main():
     command = "iostat -d 1 -p sda > "
     command += result_dir + "/iostat-model.txt &"
     subprocess.call(command, shell=True)
+    command = "sudo iotop -b > "
+    command += result_dir + "/iotop-model.txt &"
+    subprocess.call(command, shell=True)
     command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
     command += result_dir + "/blktrace-model.txt &"
     command = "nvidia-smi -l 1  > "
@@ -203,6 +206,7 @@ def main():
 
     subprocess.call("sudo kill $(pgrep blk)", shell=True)
     subprocess.call("kill $(pgrep iostat)", shell=True)
+    subprocess.call("sudo kill $(pgrep iotop)", shell=True)
     subprocess.call("kill $(pgrep top)", shell=True)
     subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
 
@@ -214,13 +218,16 @@ def main():
         adjust_learning_rate(optimizer, epoch)
 
         # train for one epoch
-        print('Epoch {epoch} starts at {time.time()}')
+        print('Epoch ', epoch, ' starts at ', time.time())
 	command = "top -b > "
         command += result_dir + "/top-train.txt &"
         subprocess.call(command, shell=True)
 	command = "iostat -d 1 -p sda > "
         command += result_dir + "/iostat-train.txt &"
         subprocess.call(command, shell=True)
+    	command = "sudo iotop -b > "
+   	command += result_dir + "/iotop-train.txt &"
+    	subprocess.call(command, shell=True)
 	command = "nvidia-smi -l 1  > "
         command += result_dir + "/gpu-train.txt &"
         subprocess.call(command, shell=True)
@@ -230,6 +237,7 @@ def main():
         train(train_loader, model, criterion, optimizer, epoch)
 	subprocess.call("sudo kill $(pgrep blk)", shell=True)
         subprocess.call("kill $(pgrep iostat)", shell=True)
+        subprocess.call("sudo kill $(pgrep iotop)", shell=True)
         subprocess.call("kill $(pgrep top)", shell=True)
         subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
         # evaluate on validation set
@@ -247,7 +255,7 @@ def main():
         }, is_best)
 
 	end_prgm = time.time()
-	print("\nTotal time taken : {end_prgm - start_prgm}")
+	print("\nTotal time taken : ", end_prgm - start_prgm)
 
 
 def train(train_loader, model, criterion, optimizer, epoch):
