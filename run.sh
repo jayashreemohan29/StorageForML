@@ -25,6 +25,6 @@ for batch in 64 128 256 512; do
 	python pytorch_imagenet.py --arch resnet50 -j 4 --epochs 1 -b $batch --print-freq 1 --gpu 0 --run $name ../dataset/imagenet/ > $outfile 2>&1
 
 	dest="/dev/shm/results/run-$name/"
-	mv *.log dest
-	mv *.tar dest
+	mv *.log $dest
+	mv *.tar $dest
 done 
