@@ -553,13 +553,50 @@ def resnet_main(
     schedule = [flags_obj.epochs_between_evals for _ in range(int(n_loops))]
     schedule[-1] = flags_obj.train_epochs - sum(schedule[:-1])  # over counting.
 
+  result_dir = "/dev/shm/results/run-"
+  result_dir += flags_obj.arg_run
+  if not os.path.exists(result_dir):
+      os.makedirs(result_dir)
+  ## kill other things before logging cpu,gpu info
+  subprocess.call("sudo kill $(pgrep blk)", shell=True)
+  subprocess.call("kill $(pgrep iostat)", shell=True)
+  subprocess.call("sudo kill $(pgrep iotop)", shell=True)
+  subprocess.call("kill $(pgrep top)", shell=True)
+  subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
+    
+  
   for cycle_index, num_train_epochs in enumerate(schedule):
     tf.logging.info('Starting cycle: %d/%d', cycle_index, int(n_loops))
 
     if num_train_epochs:
-      classifier.train(input_fn=lambda: input_fn_train(num_train_epochs),
+        print('Epoch ', epoch, ' starts at ', time.time())
+        command = "top -b > "
+        command += result_dir + "/top-train.txt &"
+        subprocess.call(command, shell=True)
+        command = "iostat -d 1 -p sda > "
+        command += result_dir + "/iostat-train.txt &"
+        subprocess.call(command, shell=True)
+    	command = "sudo iotop -b > "
+        command += result_dir + "/iotop-train.txt &"
+    	subprocess.call(command, shell=True)
+        command = "nvidia-smi -l 1  > "
+        command += result_dir + "/gpu-train.txt &"
+        subprocess.call(command, shell=True)
+        command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
+        command += result_dir + "/blktrace-train.txt &"
+        subprocess.call(command, shell=True)
+        
+        classifier.train(input_fn=lambda: input_fn_train(num_train_epochs),
                        hooks=train_hooks, max_steps=flags_obj.max_train_steps)
-
+        
+        subprocess.call("sudo kill $(pgrep blk)", shell=True)
+        subprocess.call("kill $(pgrep iostat)", shell=True)
+        subprocess.call("sudo kill $(pgrep iotop)", shell=True)
+        subprocess.call("kill $(pgrep top)", shell=True)
+        subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
+        
+        end_prgm = time.time()
+        print("\nTotal time taken : ", end_prgm - start_prgm)
     tf.logging.info('Starting to evaluate.')
 
     # flags_obj.max_train_steps is generally associated with testing and
@@ -629,6 +666,11 @@ def define_resnet_flags(resnet_size_choices=None):
           'inference. Note, this flag only applies to ImageNet and cannot '
           'be used for CIFAR.'))
 
+  flags.DEFINE_string(
+      name='arg_run', short_name='arg_run', default='1',
+      help=flags_core.help_wrap(
+          'value to change result directory to store system information'))
+  
   choice_kwargs = dict(
       name='resnet_size', short_name='rs', default='50',
       help=flags_core.help_wrap('The size of the ResNet model to use.'))

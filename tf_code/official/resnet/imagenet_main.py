@@ -20,6 +20,16 @@ from __future__ import print_function
 
 import os
 
+#added imports
+import argparse
+import os
+import random
+import shutil
+import time
+import warnings
+import subprocess
+##
+
 from absl import app as absl_app
 from absl import flags
 import tensorflow as tf  # pylint: disable=g-bad-import-order
@@ -323,11 +333,16 @@ def imagenet_model_fn(features, labels, mode, params):
   )
 
 
-def define_imagenet_flags():
+def define_imagenet_flags(given_batch_size, arg_run):
+  #resnet_run_loop.define_resnet_flags(
+  #    resnet_size_choices=['18', '34', '50', '101', '152', '200'])
   resnet_run_loop.define_resnet_flags(
-      resnet_size_choices=['18', '34', '50', '101', '152', '200'])
+      resnet_size_choices=['50'])
   flags.adopt_module_key_flags(resnet_run_loop)
   flags_core.set_defaults(train_epochs=90)
+  flags_core.set_defaults(batch_size=given_batch_size)
+  flags.set_default(arg_run=arg_run)
+  
 
 
 def run_imagenet(flags_obj):
@@ -339,7 +354,7 @@ def run_imagenet(flags_obj):
   input_function = (flags_obj.use_synthetic_data and
                     get_synth_input_fn(flags_core.get_tf_dtype(flags_obj)) or
                     input_fn)
-
+  print("batch size", flags_obj.batch_size)
   resnet_run_loop.resnet_main(
       flags_obj, imagenet_model_fn, input_function, DATASET_NAME,
       shape=[_DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS])
@@ -351,6 +366,8 @@ def main(_):
 
 
 if __name__ == '__main__':
+  given_batch_size = sys.argv[1]
+  arg_run = sys.argv[2]
   tf.logging.set_verbosity(tf.logging.INFO)
-  define_imagenet_flags()
+  define_imagenet_flags(given_batch_size, arg_run)
   absl_app.run(main)
