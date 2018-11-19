@@ -558,12 +558,14 @@ def resnet_main(
   if not os.path.exists(result_dir):
       os.makedirs(result_dir)
   ## kill other things before logging cpu,gpu info
+  print("\nFree memory before stats : ")
+  subprocess.call("free -m", shell=True)
   subprocess.call("sudo kill $(pgrep blk)", shell=True)
   subprocess.call("kill $(pgrep iostat)", shell=True)
   subprocess.call("sudo kill $(pgrep iotop)", shell=True)
   subprocess.call("kill $(pgrep top)", shell=True)
   subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
-    
+  
   
   for cycle_index, num_train_epochs in enumerate(schedule):
     tf.logging.info('Starting cycle: %d/%d', cycle_index, int(n_loops))
@@ -597,6 +599,7 @@ def resnet_main(
         
         end_prgm = time.time()
         print("\nTotal time taken : ", end_prgm - start_prgm)
+        
     tf.logging.info('Starting to evaluate.')
 
     # flags_obj.max_train_steps is generally associated with testing and

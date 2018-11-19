@@ -354,7 +354,8 @@ def run_imagenet(flags_obj):
   input_function = (flags_obj.use_synthetic_data and
                     get_synth_input_fn(flags_core.get_tf_dtype(flags_obj)) or
                     input_fn)
-  print("batch size", flags_obj.batch_size)
+  print("batch size: ", flags_obj.batch_size)
+  print("run argument: ",flags_obj.arg_run)
   resnet_run_loop.resnet_main(
       flags_obj, imagenet_model_fn, input_function, DATASET_NAME,
       shape=[_DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS])
