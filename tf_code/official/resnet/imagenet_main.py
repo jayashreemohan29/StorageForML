@@ -22,7 +22,7 @@ import os
 
 #added imports
 import argparse
-import os
+import sys
 import random
 import shutil
 import time
@@ -341,7 +341,7 @@ def define_imagenet_flags(given_batch_size, arg_run):
   flags.adopt_module_key_flags(resnet_run_loop)
   flags_core.set_defaults(train_epochs=90)
   flags_core.set_defaults(batch_size=given_batch_size)
-  flags.set_default(arg_run=arg_run)
+  flags_core.set_defaults(arg_run=arg_run)
   
 
 

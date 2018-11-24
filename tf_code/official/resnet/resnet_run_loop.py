@@ -23,6 +23,16 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+#added imports
+import argparse
+import sys
+import random
+import shutil
+import time
+import warnings
+import subprocess
+##
+
 import functools
 import math
 import multiprocessing
@@ -571,7 +581,8 @@ def resnet_main(
     tf.logging.info('Starting cycle: %d/%d', cycle_index, int(n_loops))
 
     if num_train_epochs:
-        print('Epoch ', epoch, ' starts at ', time.time())
+	start_prgm = time.time()
+        print('Epoch ', cycle_index, ' starts at ', start_prgm)
         command = "top -b > "
         command += result_dir + "/top-train.txt &"
         subprocess.call(command, shell=True)
