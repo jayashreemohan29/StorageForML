@@ -1,0 +1,423 @@
+2018-12-07 18:29:41.934524: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2018-12-07 18:29:42.319891: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 0 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:04:00.0
+totalMemory: 15.78GiB freeMemory: 15.36GiB
+2018-12-07 18:29:42.538934: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 1 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:06:00.0
+totalMemory: 15.78GiB freeMemory: 15.36GiB
+2018-12-07 18:29:42.913309: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 2 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:07:00.0
+totalMemory: 15.78GiB freeMemory: 15.36GiB
+2018-12-07 18:29:43.150783: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1356] Found device 3 with properties: 
+name: Tesla V100-SXM2-16GB major: 7 minor: 0 memoryClockRate(GHz): 1.53
+pciBusID: 0000:08:00.0
+totalMemory: 15.78GiB freeMemory: 15.36GiB
+2018-12-07 18:29:43.150865: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1, 2, 3
+2018-12-07 18:29:44.256650: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-07 18:29:44.256698: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 2 3 
+2018-12-07 18:29:44.256704: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y Y Y 
+2018-12-07 18:29:44.256708: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N Y Y 
+2018-12-07 18:29:44.256711: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 2:   Y Y N Y 
+2018-12-07 18:29:44.256714: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 3:   Y Y Y N 
+2018-12-07 18:29:44.257695: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:0 with 14876 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:04:00.0, compute capability: 7.0)
+2018-12-07 18:29:44.462476: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:1 with 14876 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:06:00.0, compute capability: 7.0)
+2018-12-07 18:29:44.666659: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:2 with 14876 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2018-12-07 18:29:44.870244: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:3 with 14876 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:08:00.0, compute capability: 7.0)
+I1207 18:29:45.084099 140660031223616 tf_logging.py:116] Using config: {'_save_checkpoints_secs': 86400, '_session_config': allow_soft_placement: true
+, '_keep_checkpoint_max': 5, '_task_type': 'worker', '_train_distribute': <tensorflow.contrib.distribute.python.one_device_strategy.OneDeviceStrategy object at 0x7fed504b3c10>, '_is_chief': True, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fed504b3c50>, '_evaluation_master': '', '_save_checkpoints_steps': None, '_keep_checkpoint_every_n_hours': 10000, '_service': None, '_num_ps_replicas': 0, '_tf_random_seed': None, '_master': '', '_num_worker_replicas': 1, '_task_id': 0, '_log_step_count_steps': 100, '_model_dir': '/tmp', '_global_id_in_cluster': 0, '_save_summary_steps': 100}
+batch size:  16
+run argument:  name
+2018-12-07 18:29:46.749563: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1, 2, 3
+2018-12-07 18:29:46.749680: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-07 18:29:46.749689: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 2 3 
+2018-12-07 18:29:46.749702: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y Y Y 
+2018-12-07 18:29:46.749706: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N Y Y 
+2018-12-07 18:29:46.749710: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 2:   Y Y N Y 
+2018-12-07 18:29:46.749713: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 3:   Y Y Y N 
+2018-12-07 18:29:46.750164: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:0 with 14876 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:04:00.0, compute capability: 7.0)
+2018-12-07 18:29:46.750302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:1 with 14876 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:06:00.0, compute capability: 7.0)
+2018-12-07 18:29:46.750401: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:2 with 14876 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2018-12-07 18:29:46.750511: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/device:GPU:3 with 14876 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:08:00.0, compute capability: 7.0)
+I1207 18:29:46.775429 140660031223616 tf_logging.py:116] Benchmark run: {'machine_config': {'cpu_info': {'cpu_info': 'Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz', 'mhz_per_cpu': 3200.0, 'num_cores': 32}, 'gpu_info': {'count': 4, 'model': u'Tesla V100-SXM2-16GB'}, 'memory_total': 135097024512, 'memory_available': 129533669376}, 'run_date': '2018-12-08T00:29:45.084920Z', 'tensorflow_version': {'git_hash': 'v1.8.0-0-g93bc2e2072', 'version': '1.8.0'}, 'dataset': {'name': 'ImageNet'}, 'tensorflow_environment_variables': [], 'run_parameters': [{'long_value': 16, 'name': 'batch_size'}, {'name': 'dtype', 'string_value': "<dtype: 'float32'>"}, {'name': 'resnet_size', 'string_value': '50'}, {'name': 'resnet_version', 'string_value': '1'}, {'bool_value': 'False', 'name': 'synthetic_data'}, {'long_value': 90, 'name': 'train_epochs'}], 'test_id': None, 'model_name': 'resnet'}
+              total        used        free      shared  buff/cache   available
+Mem:         128838        4216       21163          56      103459      123523
+Swap:          3071           0        3071
+/bin/sh: 1: kill: Usage: kill [-s sigspec | -signum | -sigspec] [pid | job]... or
+kill -l [exitstatus]
+I1207 18:29:47.501240 140660031223616 tf_logging.py:116] Starting cycle: 0/90
+/bin/sh: 1: iostat: not found
+I1207 18:29:48.230031 140660031223616 tf_logging.py:116] Calling model_fn.
+2018-12-07 18:29:51.836961: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1, 2, 3
+2018-12-07 18:29:51.837077: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-07 18:29:51.837085: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 2 3 
+2018-12-07 18:29:51.837090: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y Y Y 
+2018-12-07 18:29:51.837093: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N Y Y 
+2018-12-07 18:29:51.837097: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 2:   Y Y N Y 
+2018-12-07 18:29:51.837101: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 3:   Y Y Y N 
+2018-12-07 18:29:51.837623: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14876 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:04:00.0, compute capability: 7.0)
+2018-12-07 18:29:51.837823: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14876 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:06:00.0, compute capability: 7.0)
+2018-12-07 18:29:51.838010: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14876 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2018-12-07 18:29:51.838133: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14876 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:08:00.0, compute capability: 7.0)
+I1207 18:29:51.977874 140660031223616 tf_logging.py:116] Done calling model_fn.
+I1207 18:29:52.375003 140660031223616 tf_logging.py:116] Create CheckpointSaverHook.
+I1207 18:29:53.853290 140660031223616 tf_logging.py:116] Graph was finalized.
+2018-12-07 18:29:53.853584: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1, 2, 3
+2018-12-07 18:29:53.853648: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-07 18:29:53.853655: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 2 3 
+2018-12-07 18:29:53.853659: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y Y Y 
+2018-12-07 18:29:53.853662: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N Y Y 
+2018-12-07 18:29:53.853666: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 2:   Y Y N Y 
+2018-12-07 18:29:53.853669: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 3:   Y Y Y N 
+2018-12-07 18:29:53.878482: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14876 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:04:00.0, compute capability: 7.0)
+2018-12-07 18:29:53.878643: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14876 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:06:00.0, compute capability: 7.0)
+2018-12-07 18:29:53.878769: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14876 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2018-12-07 18:29:53.878903: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14876 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:08:00.0, compute capability: 7.0)
+I1207 18:29:53.881793 140660031223616 tf_logging.py:116] Restoring parameters from /tmp/model.ckpt-3
+I1207 18:29:54.580455 140660031223616 tf_logging.py:116] Running local_init_op.
+I1207 18:29:54.616727 140660031223616 tf_logging.py:116] Done running local_init_op.
+I1207 18:29:59.913857 140660031223616 tf_logging.py:116] Saving checkpoints for 4 into /tmp/model.ckpt.
+I1207 18:30:00.586622 140660031223616 tf_logging.py:116] learning_rate = 5.994545e-08, cross_entropy = 7.399518, train_accuracy = 0.0
+I1207 18:30:00.588553 140660031223616 tf_logging.py:116] loss = 8.494446, step = 3
+I1207 18:30:07.728663 140660031223616 tf_logging.py:116] global_step/sec: 14.0016
+I1207 18:30:07.731785 140660031223616 tf_logging.py:116] learning_rate = 2.0581272e-06, cross_entropy = 7.2548876, train_accuracy = 0.0 (7.145 sec)
+I1207 18:30:07.732112 140660031223616 tf_logging.py:116] loss = 8.349814, step = 103 (7.144 sec)
+I1207 18:30:14.060559 140660031223616 tf_logging.py:116] global_step/sec: 15.7928
+I1207 18:30:14.063565 140660031223616 tf_logging.py:116] learning_rate = 4.056309e-06, cross_entropy = 7.8810935, train_accuracy = 0.0 (6.332 sec)
+I1207 18:30:14.065275 140660031223616 tf_logging.py:116] loss = 8.97602, step = 203 (6.333 sec)
+I1207 18:30:20.449861 140660031223616 tf_logging.py:116] global_step/sec: 15.651
+I1207 18:30:20.452742 140660031223616 tf_logging.py:116] learning_rate = 6.0544908e-06, cross_entropy = 7.6144314, train_accuracy = 0.0 (6.389 sec)
+I1207 18:30:20.454415 140660031223616 tf_logging.py:116] loss = 8.709356, step = 303 (6.389 sec)
+I1207 18:30:26.839488 140660031223616 tf_logging.py:116] global_step/sec: 15.6507
+I1207 18:30:26.842500 140660031223616 tf_logging.py:116] learning_rate = 8.0526725e-06, cross_entropy = 7.52165, train_accuracy = 0.0 (6.390 sec)
+I1207 18:30:26.842830 140660031223616 tf_logging.py:116] loss = 8.616573, step = 403 (6.388 sec)
+I1207 18:30:33.210625 140660031223616 tf_logging.py:116] global_step/sec: 15.6948
+I1207 18:30:33.212400 140660031223616 tf_logging.py:116] learning_rate = 1.0050854e-05, cross_entropy = 7.3517113, train_accuracy = 0.0 (6.370 sec)
+I1207 18:30:33.213172 140660031223616 tf_logging.py:116] loss = 8.446632, step = 503 (6.370 sec)
+I1207 18:30:39.562171 140660031223616 tf_logging.py:116] global_step/sec: 15.7441
+I1207 18:30:39.564110 140660031223616 tf_logging.py:116] learning_rate = 1.2049036e-05, cross_entropy = 7.54754, train_accuracy = 0.0 (6.352 sec)
+I1207 18:30:39.565371 140660031223616 tf_logging.py:116] loss = 8.642459, step = 603 (6.352 sec)
+I1207 18:30:45.892930 140660031223616 tf_logging.py:116] global_step/sec: 15.7956
+I1207 18:30:45.894573 140660031223616 tf_logging.py:116] learning_rate = 1.40472175e-05, cross_entropy = 7.7287655, train_accuracy = 0.0 (6.330 sec)
+I1207 18:30:45.894776 140660031223616 tf_logging.py:116] loss = 8.823683, step = 703 (6.329 sec)
+I1207 18:30:52.266923 140660031223616 tf_logging.py:116] global_step/sec: 15.6897
+I1207 18:30:52.269475 140660031223616 tf_logging.py:116] learning_rate = 1.6045398e-05, cross_entropy = 7.3785024, train_accuracy = 0.0 (6.375 sec)
+I1207 18:30:52.269777 140660031223616 tf_logging.py:116] loss = 8.473417, step = 803 (6.375 sec)
+I1207 18:30:58.613435 140660031223616 tf_logging.py:116] global_step/sec: 15.7558
+I1207 18:30:58.615340 140660031223616 tf_logging.py:116] learning_rate = 1.804358e-05, cross_entropy = 7.4181886, train_accuracy = 0.0 (6.346 sec)
+I1207 18:30:58.615565 140660031223616 tf_logging.py:116] loss = 8.513102, step = 903 (6.346 sec)
+I1207 18:31:04.941307 140660031223616 tf_logging.py:116] global_step/sec: 15.8038
+I1207 18:31:04.943476 140660031223616 tf_logging.py:116] learning_rate = 2.0041762e-05, cross_entropy = 7.628477, train_accuracy = 0.0 (6.328 sec)
+I1207 18:31:04.944910 140660031223616 tf_logging.py:116] loss = 8.723388, step = 1003 (6.329 sec)
+I1207 18:31:11.269507 140660031223616 tf_logging.py:116] global_step/sec: 15.8017
+I1207 18:31:11.271743 140660031223616 tf_logging.py:116] learning_rate = 2.2039943e-05, cross_entropy = 7.2856736, train_accuracy = 0.0 (6.328 sec)
+I1207 18:31:11.273307 140660031223616 tf_logging.py:116] loss = 8.380583, step = 1103 (6.328 sec)
+I1207 18:31:17.625451 140660031223616 tf_logging.py:116] global_step/sec: 15.7338
+I1207 18:31:17.627625 140660031223616 tf_logging.py:116] learning_rate = 2.4038127e-05, cross_entropy = 7.10332, train_accuracy = 0.0 (6.356 sec)
+I1207 18:31:17.629339 140660031223616 tf_logging.py:116] loss = 8.198228, step = 1203 (6.356 sec)
+I1207 18:31:23.960244 140660031223616 tf_logging.py:116] global_step/sec: 15.7853
+I1207 18:31:23.962321 140660031223616 tf_logging.py:116] learning_rate = 2.6036309e-05, cross_entropy = 7.176118, train_accuracy = 0.0 (6.335 sec)
+I1207 18:31:23.963671 140660031223616 tf_logging.py:116] loss = 8.271025, step = 1303 (6.334 sec)
+I1207 18:31:30.308111 140660031223616 tf_logging.py:116] global_step/sec: 15.7538
+I1207 18:31:30.310455 140660031223616 tf_logging.py:116] learning_rate = 2.803449e-05, cross_entropy = 7.3594747, train_accuracy = 0.0 (6.348 sec)
+I1207 18:31:30.312001 140660031223616 tf_logging.py:116] loss = 8.454381, step = 1403 (6.348 sec)
+I1207 18:31:36.637072 140660031223616 tf_logging.py:116] global_step/sec: 15.8002
+I1207 18:31:36.639075 140660031223616 tf_logging.py:116] learning_rate = 3.0032672e-05, cross_entropy = 7.30106, train_accuracy = 0.0 (6.329 sec)
+I1207 18:31:36.640433 140660031223616 tf_logging.py:116] loss = 8.395966, step = 1503 (6.328 sec)
+I1207 18:31:42.925900 140660031223616 tf_logging.py:116] global_step/sec: 15.901
+I1207 18:31:42.927797 140660031223616 tf_logging.py:116] learning_rate = 3.2030854e-05, cross_entropy = 6.973375, train_accuracy = 0.0 (6.289 sec)
+I1207 18:31:42.929121 140660031223616 tf_logging.py:116] loss = 8.06828, step = 1603 (6.289 sec)
+I1207 18:31:49.240626 140660031223616 tf_logging.py:116] global_step/sec: 15.836
+I1207 18:31:49.242549 140660031223616 tf_logging.py:116] learning_rate = 3.4029035e-05, cross_entropy = 7.1281977, train_accuracy = 0.0 (6.315 sec)
+I1207 18:31:49.244033 140660031223616 tf_logging.py:116] loss = 8.223103, step = 1703 (6.315 sec)
+I1207 18:31:55.575226 140660031223616 tf_logging.py:116] global_step/sec: 15.7862
+I1207 18:31:55.577369 140660031223616 tf_logging.py:116] learning_rate = 3.6027217e-05, cross_entropy = 7.0994167, train_accuracy = 0.0 (6.335 sec)
+I1207 18:31:55.578586 140660031223616 tf_logging.py:116] loss = 8.194321, step = 1803 (6.335 sec)
+I1207 18:32:01.892025 140660031223616 tf_logging.py:116] global_step/sec: 15.8308
+I1207 18:32:01.894191 140660031223616 tf_logging.py:116] learning_rate = 3.80254e-05, cross_entropy = 6.767583, train_accuracy = 0.0 (6.317 sec)
+I1207 18:32:01.895721 140660031223616 tf_logging.py:116] loss = 7.862488, step = 1903 (6.317 sec)
+I1207 18:32:08.221267 140660031223616 tf_logging.py:116] global_step/sec: 15.8003
+I1207 18:32:08.223437 140660031223616 tf_logging.py:116] learning_rate = 4.002358e-05, cross_entropy = 6.8152905, train_accuracy = 0.0 (6.329 sec)
+I1207 18:32:08.223757 140660031223616 tf_logging.py:116] loss = 7.9101954, step = 2003 (6.328 sec)
+I1207 18:32:14.517700 140660031223616 tf_logging.py:116] global_step/sec: 15.8816
+I1207 18:32:14.519606 140660031223616 tf_logging.py:116] learning_rate = 4.2021762e-05, cross_entropy = 6.840944, train_accuracy = 0.0 (6.296 sec)
+I1207 18:32:14.520983 140660031223616 tf_logging.py:116] loss = 7.93585, step = 2103 (6.297 sec)
+I1207 18:32:20.865438 140660031223616 tf_logging.py:116] global_step/sec: 15.7535
+I1207 18:32:20.867786 140660031223616 tf_logging.py:116] learning_rate = 4.4019944e-05, cross_entropy = 7.020894, train_accuracy = 0.0 (6.348 sec)
+I1207 18:32:20.869311 140660031223616 tf_logging.py:116] loss = 8.115803, step = 2203 (6.348 sec)
+I1207 18:32:27.184212 140660031223616 tf_logging.py:116] global_step/sec: 15.8264
+I1207 18:32:27.186534 140660031223616 tf_logging.py:116] learning_rate = 4.6018125e-05, cross_entropy = 7.0238585, train_accuracy = 0.0 (6.319 sec)
+I1207 18:32:27.188047 140660031223616 tf_logging.py:116] loss = 8.11877, step = 2303 (6.319 sec)
+I1207 18:32:33.494369 140660031223616 tf_logging.py:116] global_step/sec: 15.8471
+I1207 18:32:33.496109 140660031223616 tf_logging.py:116] learning_rate = 4.8016307e-05, cross_entropy = 7.0515165, train_accuracy = 0.0 (6.310 sec)
+I1207 18:32:33.497618 140660031223616 tf_logging.py:116] loss = 8.146431, step = 2403 (6.310 sec)
+I1207 18:32:39.800575 140660031223616 tf_logging.py:116] global_step/sec: 15.8573
+I1207 18:32:39.802699 140660031223616 tf_logging.py:116] learning_rate = 5.001449e-05, cross_entropy = 6.821495, train_accuracy = 0.0 (6.307 sec)
+I1207 18:32:39.803807 140660031223616 tf_logging.py:116] loss = 7.916412, step = 2503 (6.306 sec)
+I1207 18:32:46.109309 140660031223616 tf_logging.py:116] global_step/sec: 15.8509
+I1207 18:32:46.111267 140660031223616 tf_logging.py:116] learning_rate = 5.201267e-05, cross_entropy = 7.043924, train_accuracy = 0.0 (6.309 sec)
+I1207 18:32:46.112533 140660031223616 tf_logging.py:116] loss = 8.138844, step = 2603 (6.309 sec)
+I1207 18:32:52.456907 140660031223616 tf_logging.py:116] global_step/sec: 15.7546
+I1207 18:32:52.459325 140660031223616 tf_logging.py:116] learning_rate = 5.4010852e-05, cross_entropy = 6.9139876, train_accuracy = 0.0 (6.348 sec)
+I1207 18:32:52.460968 140660031223616 tf_logging.py:116] loss = 8.008911, step = 2703 (6.348 sec)
+I1207 18:32:58.783833 140660031223616 tf_logging.py:116] global_step/sec: 15.8049
+I1207 18:32:58.785348 140660031223616 tf_logging.py:116] learning_rate = 5.6009034e-05, cross_entropy = 7.028654, train_accuracy = 0.0 (6.326 sec)
+I1207 18:32:58.786995 140660031223616 tf_logging.py:116] loss = 8.12358, step = 2803 (6.326 sec)
+I1207 18:33:05.105613 140660031223616 tf_logging.py:116] global_step/sec: 15.8182
+I1207 18:33:05.107244 140660031223616 tf_logging.py:116] learning_rate = 5.8007216e-05, cross_entropy = 6.836296, train_accuracy = 0.0 (6.322 sec)
+I1207 18:33:05.108807 140660031223616 tf_logging.py:116] loss = 7.9312243, step = 2903 (6.322 sec)
+I1207 18:33:11.411037 140660031223616 tf_logging.py:116] global_step/sec: 15.8594
+I1207 18:33:11.413078 140660031223616 tf_logging.py:116] learning_rate = 6.0005397e-05, cross_entropy = 7.196872, train_accuracy = 0.0 (6.306 sec)
+I1207 18:33:11.414257 140660031223616 tf_logging.py:116] loss = 8.291803, step = 3003 (6.305 sec)
+I1207 18:33:17.731112 140660031223616 tf_logging.py:116] global_step/sec: 15.8226
+I1207 18:33:17.732897 140660031223616 tf_logging.py:116] learning_rate = 6.200358e-05, cross_entropy = 7.130585, train_accuracy = 0.0 (6.320 sec)
+I1207 18:33:17.734219 140660031223616 tf_logging.py:116] loss = 8.225518, step = 3103 (6.320 sec)
+I1207 18:33:24.056803 140660031223616 tf_logging.py:116] global_step/sec: 15.8092
+I1207 18:33:24.059111 140660031223616 tf_logging.py:116] learning_rate = 6.400176e-05, cross_entropy = 6.9819145, train_accuracy = 0.0 (6.326 sec)
+I1207 18:33:24.059431 140660031223616 tf_logging.py:116] loss = 8.07685, step = 3203 (6.325 sec)
+I1207 18:33:30.387077 140660031223616 tf_logging.py:116] global_step/sec: 15.7965
+I1207 18:33:30.388866 140660031223616 tf_logging.py:116] learning_rate = 6.599994e-05, cross_entropy = 6.876558, train_accuracy = 0.0 (6.330 sec)
+I1207 18:33:30.390078 140660031223616 tf_logging.py:116] loss = 7.971495, step = 3303 (6.331 sec)
+I1207 18:33:36.715111 140660031223616 tf_logging.py:116] global_step/sec: 15.803
+I1207 18:33:36.717325 140660031223616 tf_logging.py:116] learning_rate = 6.7998124e-05, cross_entropy = 6.993248, train_accuracy = 0.0 (6.328 sec)
+I1207 18:33:36.719007 140660031223616 tf_logging.py:116] loss = 8.08819, step = 3403 (6.329 sec)
+I1207 18:33:43.041799 140660031223616 tf_logging.py:116] global_step/sec: 15.8064
+I1207 18:33:43.043992 140660031223616 tf_logging.py:116] learning_rate = 6.9996306e-05, cross_entropy = 6.967748, train_accuracy = 0.0 (6.327 sec)
+I1207 18:33:43.045057 140660031223616 tf_logging.py:116] loss = 8.062693, step = 3503 (6.326 sec)
+I1207 18:33:49.356580 140660031223616 tf_logging.py:116] global_step/sec: 15.8352
+I1207 18:33:49.358273 140660031223616 tf_logging.py:116] learning_rate = 7.199449e-05, cross_entropy = 6.9586935, train_accuracy = 0.0 (6.314 sec)
+I1207 18:33:49.359694 140660031223616 tf_logging.py:116] loss = 8.05364, step = 3603 (6.315 sec)
+I1207 18:33:55.713301 140660031223616 tf_logging.py:116] global_step/sec: 15.7316
+I1207 18:33:55.715523 140660031223616 tf_logging.py:116] learning_rate = 7.399267e-05, cross_entropy = 6.9898486, train_accuracy = 0.0 (6.357 sec)
+I1207 18:33:55.716959 140660031223616 tf_logging.py:116] loss = 8.084796, step = 3703 (6.357 sec)
+I1207 18:34:02.037890 140660031223616 tf_logging.py:116] global_step/sec: 15.8109
+I1207 18:34:02.039293 140660031223616 tf_logging.py:116] learning_rate = 7.599085e-05, cross_entropy = 7.073202, train_accuracy = 0.0 (6.324 sec)
+I1207 18:34:02.040270 140660031223616 tf_logging.py:116] loss = 8.168148, step = 3803 (6.323 sec)
+I1207 18:34:08.362437 140660031223616 tf_logging.py:116] global_step/sec: 15.8116
+I1207 18:34:08.364255 140660031223616 tf_logging.py:116] learning_rate = 7.798903e-05, cross_entropy = 7.0056252, train_accuracy = 0.0 (6.325 sec)
+I1207 18:34:08.365077 140660031223616 tf_logging.py:116] loss = 8.100569, step = 3903 (6.325 sec)
+I1207 18:34:14.673935 140660031223616 tf_logging.py:116] global_step/sec: 15.8447
+I1207 18:34:14.676167 140660031223616 tf_logging.py:116] learning_rate = 7.9987214e-05, cross_entropy = 6.933172, train_accuracy = 0.0 (6.312 sec)
+I1207 18:34:14.677674 140660031223616 tf_logging.py:116] loss = 8.028111, step = 4003 (6.313 sec)
+I1207 18:34:20.947860 140660031223616 tf_logging.py:116] global_step/sec: 15.9382
+I1207 18:34:20.949328 140660031223616 tf_logging.py:116] learning_rate = 8.1985396e-05, cross_entropy = 6.846102, train_accuracy = 0.0 (6.273 sec)
+I1207 18:34:20.950690 140660031223616 tf_logging.py:116] loss = 7.9410377, step = 4103 (6.273 sec)
+I1207 18:34:27.235028 140660031223616 tf_logging.py:116] global_step/sec: 15.9059
+I1207 18:34:27.236706 140660031223616 tf_logging.py:116] learning_rate = 8.398358e-05, cross_entropy = 6.8099136, train_accuracy = 0.0 (6.287 sec)
+I1207 18:34:27.238065 140660031223616 tf_logging.py:116] loss = 7.904845, step = 4203 (6.287 sec)
+I1207 18:34:33.521112 140660031223616 tf_logging.py:116] global_step/sec: 15.9078
+I1207 18:34:33.523175 140660031223616 tf_logging.py:116] learning_rate = 8.598176e-05, cross_entropy = 6.9500637, train_accuracy = 0.0 (6.286 sec)
+I1207 18:34:33.524715 140660031223616 tf_logging.py:116] loss = 8.044991, step = 4303 (6.287 sec)
+I1207 18:34:39.792057 140660031223616 tf_logging.py:116] global_step/sec: 15.9465
+I1207 18:34:39.793885 140660031223616 tf_logging.py:116] learning_rate = 8.797994e-05, cross_entropy = 6.906004, train_accuracy = 0.0 (6.271 sec)
+I1207 18:34:39.795474 140660031223616 tf_logging.py:116] loss = 8.000929, step = 4403 (6.271 sec)
+I1207 18:34:46.097009 140660031223616 tf_logging.py:116] global_step/sec: 15.8605
+I1207 18:34:46.098592 140660031223616 tf_logging.py:116] learning_rate = 8.997812e-05, cross_entropy = 6.848266, train_accuracy = 0.0 (6.305 sec)
+I1207 18:34:46.099813 140660031223616 tf_logging.py:116] loss = 7.9431887, step = 4503 (6.304 sec)
+I1207 18:34:52.364717 140660031223616 tf_logging.py:116] global_step/sec: 15.9553
+I1207 18:34:52.366565 140660031223616 tf_logging.py:116] learning_rate = 9.1976304e-05, cross_entropy = 7.095072, train_accuracy = 0.0 (6.268 sec)
+I1207 18:34:52.367953 140660031223616 tf_logging.py:116] loss = 8.189992, step = 4603 (6.268 sec)
+I1207 18:34:58.661436 140660031223616 tf_logging.py:116] global_step/sec: 15.8808
+I1207 18:34:58.662758 140660031223616 tf_logging.py:116] learning_rate = 9.3974486e-05, cross_entropy = 6.750943, train_accuracy = 0.0 (6.296 sec)
+I1207 18:34:58.662951 140660031223616 tf_logging.py:116] loss = 7.8458605, step = 4703 (6.295 sec)
+I1207 18:35:04.936619 140660031223616 tf_logging.py:116] global_step/sec: 15.9358
+I1207 18:35:04.938071 140660031223616 tf_logging.py:116] learning_rate = 9.597267e-05, cross_entropy = 6.9053226, train_accuracy = 0.0 (6.275 sec)
+I1207 18:35:04.939176 140660031223616 tf_logging.py:116] loss = 8.000236, step = 4803 (6.276 sec)
+I1207 18:35:11.227684 140660031223616 tf_logging.py:116] global_step/sec: 15.896
+I1207 18:35:11.230051 140660031223616 tf_logging.py:116] learning_rate = 9.797085e-05, cross_entropy = 6.7160525, train_accuracy = 0.0 (6.292 sec)
+I1207 18:35:11.231400 140660031223616 tf_logging.py:116] loss = 7.8109617, step = 4903 (6.292 sec)
+I1207 18:35:17.508502 140660031223616 tf_logging.py:116] global_step/sec: 15.921
+I1207 18:35:17.509993 140660031223616 tf_logging.py:116] learning_rate = 9.996903e-05, cross_entropy = 6.8817625, train_accuracy = 0.0 (6.280 sec)
+I1207 18:35:17.510210 140660031223616 tf_logging.py:116] loss = 7.976667, step = 5003 (6.279 sec)
+I1207 18:35:23.816411 140660031223616 tf_logging.py:116] global_step/sec: 15.8531
+I1207 18:35:23.818021 140660031223616 tf_logging.py:116] learning_rate = 0.00010196721, cross_entropy = 6.894781, train_accuracy = 0.0 (6.308 sec)
+I1207 18:35:23.819200 140660031223616 tf_logging.py:116] loss = 7.989681, step = 5103 (6.309 sec)
+I1207 18:35:30.118721 140660031223616 tf_logging.py:116] global_step/sec: 15.8673
+I1207 18:35:30.120610 140660031223616 tf_logging.py:116] learning_rate = 0.000103965394, cross_entropy = 6.9348955, train_accuracy = 0.0 (6.303 sec)
+I1207 18:35:30.122157 140660031223616 tf_logging.py:116] loss = 8.029789, step = 5203 (6.303 sec)
+I1207 18:35:36.425302 140660031223616 tf_logging.py:116] global_step/sec: 15.8569
+I1207 18:35:36.426992 140660031223616 tf_logging.py:116] learning_rate = 0.000105963576, cross_entropy = 6.9762664, train_accuracy = 0.0 (6.306 sec)
+I1207 18:35:36.428380 140660031223616 tf_logging.py:116] loss = 8.071151, step = 5303 (6.306 sec)
+I1207 18:35:42.742660 140660031223616 tf_logging.py:116] global_step/sec: 15.8289
+I1207 18:35:42.743812 140660031223616 tf_logging.py:116] learning_rate = 0.00010796176, cross_entropy = 6.641319, train_accuracy = 0.0 (6.317 sec)
+I1207 18:35:42.745232 140660031223616 tf_logging.py:116] loss = 7.736193, step = 5403 (6.317 sec)
+I1207 18:35:49.050004 140660031223616 tf_logging.py:116] global_step/sec: 15.855
+I1207 18:35:49.051795 140660031223616 tf_logging.py:116] learning_rate = 0.00010995994, cross_entropy = 6.723105, train_accuracy = 0.0 (6.308 sec)
+I1207 18:35:49.053062 140660031223616 tf_logging.py:116] loss = 7.8179684, step = 5503 (6.308 sec)
+I1207 18:35:55.352293 140660031223616 tf_logging.py:116] global_step/sec: 15.8668
+I1207 18:35:55.354006 140660031223616 tf_logging.py:116] learning_rate = 0.00011195812, cross_entropy = 6.9417667, train_accuracy = 0.0 (6.302 sec)
+I1207 18:35:55.355267 140660031223616 tf_logging.py:116] loss = 8.036618, step = 5603 (6.302 sec)
+I1207 18:36:01.683880 140660031223616 tf_logging.py:116] global_step/sec: 15.7939
+I1207 18:36:01.685725 140660031223616 tf_logging.py:116] learning_rate = 0.0001139563, cross_entropy = 7.061186, train_accuracy = 0.0 (6.332 sec)
+I1207 18:36:01.686882 140660031223616 tf_logging.py:116] loss = 8.156025, step = 5703 (6.332 sec)
+I1207 18:36:07.989978 140660031223616 tf_logging.py:116] global_step/sec: 15.8576
+I1207 18:36:07.991323 140660031223616 tf_logging.py:116] learning_rate = 0.000115954484, cross_entropy = 6.9085474, train_accuracy = 0.0 (6.306 sec)
+I1207 18:36:07.992047 140660031223616 tf_logging.py:116] loss = 8.003375, step = 5803 (6.305 sec)
+I1207 18:36:14.317487 140660031223616 tf_logging.py:116] global_step/sec: 15.804
+I1207 18:36:14.319277 140660031223616 tf_logging.py:116] learning_rate = 0.000117952666, cross_entropy = 6.7439146, train_accuracy = 0.0 (6.328 sec)
+I1207 18:36:14.320781 140660031223616 tf_logging.py:116] loss = 7.83873, step = 5903 (6.329 sec)
+I1207 18:36:20.620667 140660031223616 tf_logging.py:116] global_step/sec: 15.8658
+I1207 18:36:20.623218 140660031223616 tf_logging.py:116] learning_rate = 0.00011995085, cross_entropy = 6.8656583, train_accuracy = 0.0 (6.304 sec)
+I1207 18:36:20.625233 140660031223616 tf_logging.py:116] loss = 7.960462, step = 6003 (6.304 sec)
+I1207 18:36:26.942349 140660031223616 tf_logging.py:116] global_step/sec: 15.8178
+I1207 18:36:26.944217 140660031223616 tf_logging.py:116] learning_rate = 0.00012194903, cross_entropy = 6.9186344, train_accuracy = 0.0 (6.321 sec)
+I1207 18:36:26.945681 140660031223616 tf_logging.py:116] loss = 8.013426, step = 6103 (6.320 sec)
+I1207 18:36:33.241007 140660031223616 tf_logging.py:116] global_step/sec: 15.8763
+I1207 18:36:33.242343 140660031223616 tf_logging.py:116] learning_rate = 0.00012394722, cross_entropy = 6.891918, train_accuracy = 0.0 (6.298 sec)
+I1207 18:36:33.243388 140660031223616 tf_logging.py:116] loss = 7.9866977, step = 6203 (6.298 sec)
+I1207 18:36:39.548667 140660031223616 tf_logging.py:116] global_step/sec: 15.8538
+I1207 18:36:39.550261 140660031223616 tf_logging.py:116] learning_rate = 0.0001259454, cross_entropy = 6.8290024, train_accuracy = 0.0 (6.308 sec)
+I1207 18:36:39.551342 140660031223616 tf_logging.py:116] loss = 7.9237695, step = 6303 (6.308 sec)
+I1207 18:36:45.807745 140660031223616 tf_logging.py:116] global_step/sec: 15.9768
+I1207 18:36:45.809458 140660031223616 tf_logging.py:116] learning_rate = 0.00012794358, cross_entropy = 6.9058847, train_accuracy = 0.0 (6.259 sec)
+I1207 18:36:45.810879 140660031223616 tf_logging.py:116] loss = 8.000637, step = 6403 (6.260 sec)
+I1207 18:36:52.120114 140660031223616 tf_logging.py:116] global_step/sec: 15.8423
+I1207 18:36:52.122473 140660031223616 tf_logging.py:116] learning_rate = 0.00012994176, cross_entropy = 6.98664, train_accuracy = 0.0 (6.313 sec)
+I1207 18:36:52.123437 140660031223616 tf_logging.py:116] loss = 8.081377, step = 6503 (6.313 sec)
+I1207 18:36:58.427546 140660031223616 tf_logging.py:116] global_step/sec: 15.8539
+I1207 18:36:58.429398 140660031223616 tf_logging.py:116] learning_rate = 0.00013193995, cross_entropy = 6.898638, train_accuracy = 0.0 (6.307 sec)
+I1207 18:36:58.429670 140660031223616 tf_logging.py:116] loss = 7.993359, step = 6603 (6.306 sec)
+I1207 18:37:04.726286 140660031223616 tf_logging.py:116] global_step/sec: 15.8762
+I1207 18:37:04.728308 140660031223616 tf_logging.py:116] learning_rate = 0.00013393813, cross_entropy = 6.91786, train_accuracy = 0.0 (6.299 sec)
+I1207 18:37:04.729402 140660031223616 tf_logging.py:116] loss = 8.012566, step = 6703 (6.300 sec)
+I1207 18:37:11.029699 140660031223616 tf_logging.py:116] global_step/sec: 15.8649
+I1207 18:37:11.031522 140660031223616 tf_logging.py:116] learning_rate = 0.00013593631, cross_entropy = 6.860156, train_accuracy = 0.0 (6.303 sec)
+I1207 18:37:11.032952 140660031223616 tf_logging.py:116] loss = 7.954845, step = 6803 (6.304 sec)
+I1207 18:37:17.335937 140660031223616 tf_logging.py:116] global_step/sec: 15.8568
+I1207 18:37:17.337418 140660031223616 tf_logging.py:116] learning_rate = 0.00013793449, cross_entropy = 6.929435, train_accuracy = 0.0 (6.306 sec)
+I1207 18:37:17.338938 140660031223616 tf_logging.py:116] loss = 8.024107, step = 6903 (6.306 sec)
+I1207 18:37:23.621229 140660031223616 tf_logging.py:116] global_step/sec: 15.9102
+I1207 18:37:23.622647 140660031223616 tf_logging.py:116] learning_rate = 0.00013993267, cross_entropy = 6.9295254, train_accuracy = 0.0 (6.285 sec)
+I1207 18:37:23.623999 140660031223616 tf_logging.py:116] loss = 8.02418, step = 7003 (6.285 sec)
+I1207 18:37:29.911273 140660031223616 tf_logging.py:116] global_step/sec: 15.8988
+I1207 18:37:29.912781 140660031223616 tf_logging.py:116] learning_rate = 0.00014193085, cross_entropy = 7.0999384, train_accuracy = 0.0 (6.290 sec)
+I1207 18:37:29.913033 140660031223616 tf_logging.py:116] loss = 8.194575, step = 7103 (6.289 sec)
+I1207 18:37:36.180028 140660031223616 tf_logging.py:116] global_step/sec: 15.9518
+I1207 18:37:36.181863 140660031223616 tf_logging.py:116] learning_rate = 0.00014392904, cross_entropy = 6.853847, train_accuracy = 0.0 (6.269 sec)
+I1207 18:37:36.182140 140660031223616 tf_logging.py:116] loss = 7.9484673, step = 7203 (6.269 sec)
+I1207 18:37:42.432337 140660031223616 tf_logging.py:116] global_step/sec: 15.9938
+I1207 18:37:42.434216 140660031223616 tf_logging.py:116] learning_rate = 0.00014592722, cross_entropy = 6.785136, train_accuracy = 0.0 (6.252 sec)
+I1207 18:37:42.435918 140660031223616 tf_logging.py:116] loss = 7.879739, step = 7303 (6.254 sec)
+I1207 18:37:48.690609 140660031223616 tf_logging.py:116] global_step/sec: 15.9791
+I1207 18:37:48.692135 140660031223616 tf_logging.py:116] learning_rate = 0.0001479254, cross_entropy = 6.8582115, train_accuracy = 0.0 (6.258 sec)
+I1207 18:37:48.693702 140660031223616 tf_logging.py:116] loss = 7.9527955, step = 7403 (6.258 sec)
+I1207 18:37:54.968122 140660031223616 tf_logging.py:116] global_step/sec: 15.9296
+I1207 18:37:54.969353 140660031223616 tf_logging.py:116] learning_rate = 0.00014992358, cross_entropy = 6.9362392, train_accuracy = 0.0 (6.277 sec)
+I1207 18:37:54.970482 140660031223616 tf_logging.py:116] loss = 8.030804, step = 7503 (6.277 sec)
+I1207 18:38:01.239490 140660031223616 tf_logging.py:116] global_step/sec: 15.9459
+I1207 18:38:01.241269 140660031223616 tf_logging.py:116] learning_rate = 0.00015192176, cross_entropy = 6.795638, train_accuracy = 0.0 (6.272 sec)
+I1207 18:38:01.242436 140660031223616 tf_logging.py:116] loss = 7.8901825, step = 7603 (6.272 sec)
+I1207 18:38:07.505541 140660031223616 tf_logging.py:116] global_step/sec: 15.9588
+I1207 18:38:07.507462 140660031223616 tf_logging.py:116] learning_rate = 0.00015391994, cross_entropy = 7.041727, train_accuracy = 0.0 (6.266 sec)
+I1207 18:38:07.509035 140660031223616 tf_logging.py:116] loss = 8.136251, step = 7703 (6.267 sec)
+I1207 18:38:13.773854 140660031223616 tf_logging.py:116] global_step/sec: 15.9531
+I1207 18:38:13.775825 140660031223616 tf_logging.py:116] learning_rate = 0.00015591813, cross_entropy = 6.9415417, train_accuracy = 0.0 (6.268 sec)
+I1207 18:38:13.777148 140660031223616 tf_logging.py:116] loss = 8.036044, step = 7803 (6.268 sec)
+I1207 18:38:15.305547 140660031223616 tf_logging.py:116] Saving checkpoints for 7822 into /tmp/model.ckpt.
+I1207 18:38:16.044284 140660031223616 tf_logging.py:116] Loss for final step: 8.011718.
+
+You have 27212 ( 15.2%) dropped events
+Consider using a larger buffer size (-b) and/or more buffers (-n)
+/bin/sh: 1: kill: Usage: kill [-s sigspec | -signum | -sigspec] [pid | job]... or
+kill -l [exitstatus]
+I1207 18:38:17.224004 140660031223616 tf_logging.py:116] Starting to evaluate.
+I1207 18:38:17.293132 140660031223616 tf_logging.py:116] Calling model_fn.
+I1207 18:38:18.451133 140660031223616 tf_logging.py:116] Done calling model_fn.
+I1207 18:38:18.464859 140660031223616 tf_logging.py:116] Starting evaluation at 2018-12-08-00:38:18
+I1207 18:38:18.916157 140660031223616 tf_logging.py:116] Graph was finalized.
+2018-12-07 18:38:18.916394: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1435] Adding visible gpu devices: 0, 1, 2, 3
+2018-12-07 18:38:18.916484: I tensorflow/core/common_runtime/gpu/gpu_device.cc:923] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-12-07 18:38:18.916490: I tensorflow/core/common_runtime/gpu/gpu_device.cc:929]      0 1 2 3 
+2018-12-07 18:38:18.916494: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 0:   N Y Y Y 
+2018-12-07 18:38:18.916498: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 1:   Y N Y Y 
+2018-12-07 18:38:18.916501: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 2:   Y Y N Y 
+2018-12-07 18:38:18.916504: I tensorflow/core/common_runtime/gpu/gpu_device.cc:942] 3:   Y Y Y N 
+2018-12-07 18:38:18.917043: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 14876 MB memory) -> physical GPU (device: 0, name: Tesla V100-SXM2-16GB, pci bus id: 0000:04:00.0, compute capability: 7.0)
+2018-12-07 18:38:18.917197: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:1 with 14876 MB memory) -> physical GPU (device: 1, name: Tesla V100-SXM2-16GB, pci bus id: 0000:06:00.0, compute capability: 7.0)
+2018-12-07 18:38:18.917326: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:2 with 14876 MB memory) -> physical GPU (device: 2, name: Tesla V100-SXM2-16GB, pci bus id: 0000:07:00.0, compute capability: 7.0)
+2018-12-07 18:38:18.917457: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:3 with 14876 MB memory) -> physical GPU (device: 3, name: Tesla V100-SXM2-16GB, pci bus id: 0000:08:00.0, compute capability: 7.0)
+I1207 18:38:18.917707 140660031223616 tf_logging.py:116] Restoring parameters from /tmp/model.ckpt-7822
+I1207 18:38:19.239197 140660031223616 tf_logging.py:116] Running local_init_op.
+I1207 18:38:19.260267 140660031223616 tf_logging.py:116] Done running local_init_op.
+
+Free memory before stats : 
+Epoch  0  starts at  1544228987.5
+
+Total time taken :  509.722083807
+Traceback (most recent call last):
+  File "imagenet_main.py", line 372, in <module>
+    absl_app.run(main)
+  File "/users/aastha/.local/lib/python2.7/site-packages/absl/app.py", line 300, in run
+    _run_main(main, args)
+  File "/users/aastha/.local/lib/python2.7/site-packages/absl/app.py", line 251, in _run_main
+    sys.exit(main(argv))
+  File "imagenet_main.py", line 364, in main
+    run_imagenet(flags.FLAGS)
+  File "imagenet_main.py", line 359, in run_imagenet
+    shape=[_DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS])
+  File "/mnt/ssd/StorageForML/tf_code/official/resnet/resnet_run_loop.py", line 623, in resnet_main
+    steps=flags_obj.max_train_steps)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/estimator/estimator.py", line 425, in evaluate
+    name=name)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/estimator/estimator.py", line 1117, in _evaluate_model
+    config=self._session_config)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/evaluation.py", line 212, in _evaluate_once
+    session.run(eval_ops, feed_dict)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 567, in run
+    run_metadata=run_metadata)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 1043, in run
+    run_metadata=run_metadata)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 1134, in run
+    raise six.reraise(*original_exc_info)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 1119, in run
+    return self._sess.run(*args, **kwargs)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 1191, in run
+    run_metadata=run_metadata)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/training/monitored_session.py", line 971, in run
+    return self._sess.run(*args, **kwargs)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 900, in run
+    run_metadata_ptr)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1135, in _run
+    feed_dict_tensor, options, run_metadata)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1316, in _do_run
+    run_metadata)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1335, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.NotFoundError: ../../../../datasets/validation-00000-of-00128; No such file or directory
+	 [[Node: IteratorGetNext = IteratorGetNext[output_shapes=[[?,224,224,3], [?]], output_types=[DT_FLOAT, DT_INT32], _device="/job:localhost/replica:0/task:0/device:CPU:0"](Iterator)]]
+
+Caused by op u'IteratorGetNext', defined at:
+  File "imagenet_main.py", line 372, in <module>
+    absl_app.run(main)
+  File "/users/aastha/.local/lib/python2.7/site-packages/absl/app.py", line 300, in run
+    _run_main(main, args)
+  File "/users/aastha/.local/lib/python2.7/site-packages/absl/app.py", line 251, in _run_main
+    sys.exit(main(argv))
+  File "imagenet_main.py", line 364, in main
+    run_imagenet(flags.FLAGS)
+  File "imagenet_main.py", line 359, in run_imagenet
+    shape=[_DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS])
+  File "/mnt/ssd/StorageForML/tf_code/official/resnet/resnet_run_loop.py", line 623, in resnet_main
+    steps=flags_obj.max_train_steps)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/estimator/estimator.py", line 425, in evaluate
+    name=name)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/estimator/estimator.py", line 1085, in _evaluate_model
+    input_fn, model_fn_lib.ModeKeys.EVAL))
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/estimator/estimator.py", line 711, in _get_features_and_labels_from_input_fn
+    result = iterator.get_next()
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/data/ops/iterator_ops.py", line 370, in get_next
+    name=name)), self._output_types,
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/ops/gen_dataset_ops.py", line 1466, in iterator_get_next
+    output_shapes=output_shapes, name=name)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 787, in _apply_op_helper
+    op_def=op_def)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 3392, in create_op
+    op_def=op_def)
+  File "/users/aastha/.local/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1718, in __init__
+    self._traceback = self._graph._extract_stack()  # pylint: disable=protected-access
+
+NotFoundError (see above for traceback): ../../../../datasets/validation-00000-of-00128; No such file or directory
+	 [[Node: IteratorGetNext = IteratorGetNext[output_shapes=[[?,224,224,3], [?]], output_types=[DT_FLOAT, DT_INT32], _device="/job:localhost/replica:0/task:0/device:CPU:0"](Iterator)]]
+

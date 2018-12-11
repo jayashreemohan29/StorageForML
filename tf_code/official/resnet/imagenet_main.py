@@ -61,11 +61,11 @@ def get_filenames(is_training, data_dir):
   """Return filenames for dataset."""
   if is_training:
     return [
-        os.path.join(data_dir, 'train-%05d-of-01024' % i)
+        os.path.join(data_dir, 'train/train-%05d-of-01024' % i)
         for i in range(_NUM_TRAIN_FILES)]
   else:
     return [
-        os.path.join(data_dir, 'validation-%05d-of-00128' % i)
+        os.path.join(data_dir, 'val/validation-%05d-of-00128' % i)
         for i in range(128)]
 
 
@@ -333,15 +333,13 @@ def imagenet_model_fn(features, labels, mode, params):
   )
 
 
-def define_imagenet_flags(given_batch_size, arg_run):
+def define_imagenet_flags():
   #resnet_run_loop.define_resnet_flags(
   #    resnet_size_choices=['18', '34', '50', '101', '152', '200'])
   resnet_run_loop.define_resnet_flags(
       resnet_size_choices=['50'])
   flags.adopt_module_key_flags(resnet_run_loop)
-  flags_core.set_defaults(train_epochs=90)
-  flags_core.set_defaults(batch_size=given_batch_size)
-  flags_core.set_defaults(arg_run=arg_run)
+  flags_core.set_defaults(train_epochs=1)
   
 
 
@@ -367,8 +365,6 @@ def main(_):
 
 
 if __name__ == '__main__':
-  given_batch_size = sys.argv[1]
-  arg_run = sys.argv[2]
   tf.logging.set_verbosity(tf.logging.INFO)
-  define_imagenet_flags(given_batch_size, arg_run)
+  define_imagenet_flags()
   absl_app.run(main)

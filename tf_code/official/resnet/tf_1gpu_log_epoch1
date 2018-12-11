@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "imagenet_main.py", line 37, in <module>
+    from official.utils.flags import core as flags_core
+ImportError: No module named official.utils.flags

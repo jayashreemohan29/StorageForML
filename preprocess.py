@@ -20,43 +20,43 @@ cwd = os.getcwd()
 #copy the datasets
 #tars = [2]
 #fromPath = "/mnt/1tbssd/vision/vision_data/ImageNet/CLS_LOC2014/image_train_tar/"
-#toPath = "/home/cc/datasets/"
+#toPath = "/mnt/ssd/datasets/"
 #os.chdir(toPath)
 #
 #for i in tars:
-#    cmd = "scp aastha@chennai.csres.utexas.edu:"+fromPath+"tar_"+str(i)+".tar.gz ."
+#    cmd = "scp aastha@chennai.csres.utexas.edu:"+fromPath+"Tftar_"+str(i)+".tar.gz ."
 #    print cmd
 #    run(cmd)
-#    cmd = "tar -xvzf "+toPath+"tar_"+str(i)+".tar.gz"
+#    cmd = "tar -xvzf "+toPath+"Tftar_"+str(i)+".tar.gz"
 #    run(cmd)
-#    cmd = "rm -rf "+toPath+"tar_"+str(i)+".tar.gz"
+#    cmd = "rm -rf "+toPath+"Tftar_"+str(i)+".tar.gz"
 #    run(cmd)
-#     if(i != len(tars)-1):
-#	  cmd = "mkdir /dev/shm/tar_bkp"
-#	  run(cmd)
-#	  cmd = "mv "+toPath+"* /dev/shm/tar_bkp/."
-#	  run(cmd)
-
-#cmd = "mv /dev/shm/tar_bkp/* "+toPath+"."
-#run(cmd)
-
+##    if(i != len(tars)-1):
+##	  #cmd = "mkdir /dev/shm/tar_bkp"
+##	  #run(cmd)
+##	  cmd = "mv "+toPath+"* /dev/shm/tar_bkp/."
+##	  run(cmd)
+#
+##cmd = "mv /dev/shm/tar_bkp/* "+toPath+"."
+##run(cmd)
+#
 #os.chdir(cwd)
 #print(os.getcwd())
 
     
-#tf_code 
-#tf_code_dir = cwd+"/StorageForML/tf_code/"
-#tf_code_off_dir = cwd+"/StorageForML/tf_code/official"
-#os.chdir(tf_code_off_dir)
-#
-#cmd = "export PYTHONPATH=$PYTHONPATH:"+tf_code_dir
-#run(cmd)
-#
-#
-#cmd = "sudo apt-get install python-pip"
-#run(cmd)
-#cmd = "pip install --user -r requirements.txt"
-#run(cmd)
+tf_code 
+tf_code_dir = cwd+"/StorageForML/tf_code/"
+tf_code_off_dir = cwd+"/StorageForML/tf_code/official"
+os.chdir(tf_code_off_dir)
+
+cmd = "export PYTHONPATH=$PYTHONPATH:"+tf_code_dir
+run(cmd)
+
+
+cmd = "sudo apt-get install python-pip"
+run(cmd)
+cmd = "pip install --user -r requirements.txt"
+run(cmd)
 
 
 #INSTALL ABSL & TENSORFLOW

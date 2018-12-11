@@ -562,8 +562,9 @@ def resnet_main(
     n_loops = math.ceil(flags_obj.train_epochs / flags_obj.epochs_between_evals)
     schedule = [flags_obj.epochs_between_evals for _ in range(int(n_loops))]
     schedule[-1] = flags_obj.train_epochs - sum(schedule[:-1])  # over counting.
+    print("SCHEDULE    ", schedule)
 
-  result_dir = "/dev/shm/results/run-"
+  result_dir = "/mnt/ssd/tf-runs/results/run-"
   result_dir += flags_obj.arg_run
   if not os.path.exists(result_dir):
       os.makedirs(result_dir)
