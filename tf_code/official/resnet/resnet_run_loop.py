@@ -89,6 +89,7 @@ def process_record_dataset(dataset,
   # Prefetches a batch at a time to smooth out the time taken to load input
   # files for shuffling and processing.
   dataset = dataset.prefetch(buffer_size=batch_size)
+  print ("dataset size PRE fetched: ", sys.getsizeof(dataset))
   if is_training:
     # Shuffles records before repeating to respect epoch boundaries.
     dataset = dataset.shuffle(buffer_size=shuffle_buffer)
@@ -121,7 +122,7 @@ def process_record_dataset(dataset,
         threadpool.PrivateThreadPool(
             datasets_num_private_threads,
             display_name='input_pipeline_thread_pool'))
-
+  tf.logging.info("dataset size fetched: ", sys.getsizeof(dataset))
   return dataset
 
 
@@ -351,6 +352,16 @@ def resnet_model_fn(features, labels, mode, model_class,
             'predict': tf.estimator.export.PredictOutput(predictions)
         })
 
+  features_shape = tf.shape(features)
+  tf.identity(features_shape, name='features_shape')
+  tf.summary.scalar('features_shape', features_shape)
+  #tf.logging.info('features_shape %s',str(features_shape))
+
+  label_shape = tf.shape(labels)
+  tf.identity(label_shape, name='label_shape')
+  tf.summary.scalar('label_shape', label_shape)
+  #tf.logging.info('label_shape %s',str(label_shape))
+  
   # Calculate loss, which includes softmax cross entropy and L2 regularization.
   cross_entropy = tf.losses.sparse_softmax_cross_entropy(
       logits=logits, labels=labels)
@@ -485,6 +496,7 @@ def resnet_main(
   run_config = tf.estimator.RunConfig(
       train_distribute=distribution_strategy,
       session_config=session_config,
+      #save_summary_steps=None,
       save_checkpoints_secs=60*60*24)
 
   # Initializes model with all but the dense layer from pretrained ResNet.
@@ -587,7 +599,7 @@ def resnet_main(
         command = "top -b > "
         command += result_dir + "/top-train.txt &"
         subprocess.call(command, shell=True)
-        command = "iostat -d 1 -p sda > "
+        command = "iostat -d 1 -p sdb > "
         command += result_dir + "/iostat-train.txt &"
         subprocess.call(command, shell=True)
     	command = "sudo iotop -b > "
@@ -596,7 +608,7 @@ def resnet_main(
         command = "nvidia-smi -l 1  > "
         command += result_dir + "/gpu-train.txt &"
         subprocess.call(command, shell=True)
-        command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
+        command = "sudo blktrace -d /dev/sdb -o - | blkparse -i - > "
         command += result_dir + "/blktrace-train.txt &"
         subprocess.call(command, shell=True)
         
