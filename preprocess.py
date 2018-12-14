@@ -44,19 +44,19 @@ cwd = os.getcwd()
 #print(os.getcwd())
 
     
-tf_code 
-tf_code_dir = cwd+"/StorageForML/tf_code/"
-tf_code_off_dir = cwd+"/StorageForML/tf_code/official"
-os.chdir(tf_code_off_dir)
-
-cmd = "export PYTHONPATH=$PYTHONPATH:"+tf_code_dir
-run(cmd)
-
-
-cmd = "sudo apt-get install python-pip"
-run(cmd)
-cmd = "pip install --user -r requirements.txt"
-run(cmd)
+#tf_code 
+#tf_code_dir = cwd+"/StorageForML/tf_code/"
+#tf_code_off_dir = cwd+"/StorageForML/tf_code/official"
+#os.chdir(tf_code_off_dir)
+#
+#cmd = "export PYTHONPATH=$PYTHONPATH:"+tf_code_dir
+#run(cmd)
+#
+#
+#cmd = "sudo apt-get install python-pip"
+#run(cmd)
+#cmd = "pip install --user -r requirements.txt"
+#run(cmd)
 
 
 #INSTALL ABSL & TENSORFLOW
@@ -64,23 +64,23 @@ run(cmd)
 #run(cmd)
 #cmd = "pip install tensorflow_gpu==1.5"
 #run(cmd)
-
-##SETUP LIBRARIES FOR TENSORFLOW
+#
+#SETUP LIBRARIES FOR TENSORFLOW
 #cmd = "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64/"
 #run(cmd)
-
+#
 #cmd = "sudo ln -s /usr/local/cuda/lib64/libcublas.so.9.1 /usr/local/cuda/lib64/libcublas.so.9.0"
 #run(cmd)
-
+#
 #cmd = "sudo ln -s /usr/local/cuda/lib64/libcusolver.so.9.1 /usr/local/cuda/lib64/libcusolver.so.9.0"
 #run(cmd)
-
+#
 #cmd = "sudo ln -s /usr/local/cuda/lib64/libcudart.so.9.1 /usr/local/cuda/lib64/libcudart.so.9.0"
 #run(cmd)
-
+#
 #cmd = "sudo ln -s /usr/local/cuda/lib64/libcufft.so.9.1 /usr/local/cuda/lib64/libcufft.so.9.0"
 #run(cmd)
-
+#
 #cmd = "sudo ln -s /usr/local/cuda/lib64/libcurand.so.9.1 /usr/local/cuda/lib64/libcurand.so.9.0"
 #run(cmd)
 
@@ -108,23 +108,28 @@ run(cmd)
 #fromPath = "/mnt/1tbssd/cudnnLibs"
 #cmd = "mkdir cudnnLibs"
 #run(cmd)
-#toPath = cwd+"/cudnnLibs"
-#os.chdir(toPath)
+toPath = cwd+"/cudnnLibs"
+os.chdir(toPath)
 #cmd  = "scp aastha@chennai.csres.utexas.edu:"+fromPath+"/* ."
 #run(cmd)
-#cmd = "sudo dpkg -i libcudnn7_7.4.1.5-1+cuda9.0_amd64.deb"
-#run(cmd)
-#cmd = "sudo dpkg -i libcudnn7-dev_7.4.1.5-1+cuda9.0_amd64.deb"
-#run(cmd)
-#cmd = "sudo dpkg -i libcudnn7-doc_7.4.1.5-1+cuda9.0_amd64.deb"
-#run(cmd)
-#os.chdir(cwd)
+cmd = "sudo dpkg -i libcudnn7_7.4.1.5-1+cuda9.0_amd64.deb"
+run(cmd)
+cmd = "sudo dpkg -i libcudnn7-dev_7.4.1.5-1+cuda9.0_amd64.deb"
+run(cmd)
+cmd = "sudo dpkg -i libcudnn7-doc_7.4.1.5-1+cuda9.0_amd64.deb"
+run(cmd)
+os.chdir(cwd)
 
 #INSTALL STAT REQ
 
-cmd = "sudo apt-get install iostat"
-run(cmd)
-cmd = "sudo apt-get install blktrace"
-run(cmd)
-cmd = "sudo apt-get install iotop"
-run(cmd)
+#cmd = "sudo apt-get install iostat"
+#run(cmd)
+#cmd = "sudo apt-get install blktrace"
+#run(cmd)
+#cmd = "sudo apt-get install iotop"
+#run(cmd)
+
+
+
+#RENAME ALL FILES
+#rename s/ILSVRC2012_img_// ILSVRC2012_img_train-0*
