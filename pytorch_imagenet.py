@@ -97,19 +97,19 @@ def main():
     # Create the result directory
     result_dir += args.run
     if not os.path.exists(result_dir):
-	os.makedirs(result_dir)
+        os.makedirs(result_dir)
 
     command = "top -b > "
     command += result_dir + "/top-model.txt &"
     subprocess.call(command, shell=True)
-    command = "iostat -d 1 -p sda > "
+    command = "iostat -d 1 -p sdb > "
     command += result_dir + "/iostat-model.txt &"
     subprocess.call(command, shell=True)
     command = "sudo iotop -b > "
     command += result_dir + "/iotop-model.txt &"
     subprocess.call(command, shell=True)
-    command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
-    command += result_dir + "/blktrace-model.txt &"
+    #command = "sudo blktrace -d /dev/sdb -o - | blkparse -i - > "
+    #command += result_dir + "/blktrace-model.txt &"
     command = "nvidia-smi -l 1  > "
     command += result_dir + "/gpu-model.txt &"
     subprocess.call(command, shell=True)
@@ -187,7 +187,7 @@ def main():
         train_sampler = None
 
     train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=args.batch_size, shuffle=(train_sampler is None),
+        train_dataset, batch_size=args.batch_size, shuffle=(False),
         num_workers=args.workers, pin_memory=True, sampler=train_sampler)
 
     val_loader = torch.utils.data.DataLoader(
@@ -204,7 +204,7 @@ def main():
         validate(val_loader, model, criterion)
         return
 
-    subprocess.call("sudo kill $(pgrep blk)", shell=True)
+    #subprocess.call("sudo kill $(pgrep blk)", shell=True)
     subprocess.call("kill $(pgrep iostat)", shell=True)
     subprocess.call("sudo kill $(pgrep iotop)", shell=True)
     subprocess.call("kill $(pgrep top)", shell=True)
@@ -212,6 +212,22 @@ def main():
 
 
 
+    command = "top -b > "
+    command += result_dir + "/top-train.txt &"
+    subprocess.call(command, shell=True)
+    command = "iostat -d 1 -p sdb > "
+    command += result_dir + "/iostat-train.txt &"
+    subprocess.call(command, shell=True)
+    command = "sudo iotop -b > "
+    command += result_dir + "/iotop-train.txt &"
+    subprocess.call(command, shell=True)
+    command = "nvidia-smi -l 1  > "
+    command += result_dir + "/gpu-train.txt &"
+    subprocess.call(command, shell=True)
+    #command = "sudo blktrace -d /dev/sdb -o - | blkparse -i - > "
+    #command += result_dir + "/blktrace-train.txt &"
+    #subprocess.call(command, shell=True)
+    
     for epoch in range(args.start_epoch, args.epochs):
         if args.distributed:
             train_sampler.set_epoch(epoch)
@@ -219,27 +235,7 @@ def main():
 
         # train for one epoch
         print('Epoch ', epoch, ' starts at ', time.time())
-	command = "top -b > "
-        command += result_dir + "/top-train.txt &"
-        subprocess.call(command, shell=True)
-	command = "iostat -d 1 -p sda > "
-        command += result_dir + "/iostat-train.txt &"
-        subprocess.call(command, shell=True)
-    	command = "sudo iotop -b > "
-   	command += result_dir + "/iotop-train.txt &"
-    	subprocess.call(command, shell=True)
-	command = "nvidia-smi -l 1  > "
-        command += result_dir + "/gpu-train.txt &"
-        subprocess.call(command, shell=True)
-	command = "sudo blktrace -d /dev/sda1 -o - | blkparse -i - > "
-        command += result_dir + "/blktrace-train.txt &"
-        subprocess.call(command, shell=True)
         train(train_loader, model, criterion, optimizer, epoch)
-	subprocess.call("sudo kill $(pgrep blk)", shell=True)
-        subprocess.call("kill $(pgrep iostat)", shell=True)
-        subprocess.call("sudo kill $(pgrep iotop)", shell=True)
-        subprocess.call("kill $(pgrep top)", shell=True)
-        subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
         # evaluate on validation set
         acc1 = validate(val_loader, model, criterion)
 
@@ -254,8 +250,14 @@ def main():
             'optimizer' : optimizer.state_dict(),
         }, is_best)
 
-	end_prgm = time.time()
-	print("\nTotal time taken : ", end_prgm - start_prgm)
+    #subprocess.call("sudo kill $(pgrep blk)", shell=True)
+    subprocess.call("kill $(pgrep iostat)", shell=True)
+    subprocess.call("sudo kill $(pgrep iotop)", shell=True)
+    subprocess.call("kill $(pgrep top)", shell=True)
+    subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
+    
+    end_prgm = time.time()
+    print("\nTotal time taken : ", end_prgm - start_prgm)
 
 
 def train(train_loader, model, criterion, optimizer, epoch):
@@ -300,10 +302,10 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         if i % args.print_freq == 0:
             print('Epoch: [{0}][{1}/{2}]\t'
-                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
- 		  'GPU {to_gpu_time.val:.3f} ({to_gpu_time.avg:.3f})\t'
-	          'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+                  'Time {batch_time.val:.6f} ({batch_time.avg:.6f})\t'
+                  'Data {data_time.val:.6f} ({data_time.avg:.6f})\t'
+                  'GPU {to_gpu_time.val:.6f} ({to_gpu_time.avg:.6f})\t'
+                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                   'Acc@1 {top1.val:.3f} ({top1.avg:.3f})\t'
                   'Acc@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
                    epoch, i, len(train_loader), batch_time=batch_time,
@@ -342,7 +344,7 @@ def validate(val_loader, model, criterion):
 
             if i % args.print_freq == 0:
                 print('Test: [{0}/{1}]\t'
-                      'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+                      'Time {batch_time.val:.6f} ({batch_time.avg:.6f})\t'
                       'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
                       'Acc@1 {top1.val:.3f} ({top1.avg:.3f})\t'
                       'Acc@5 {top5.val:.3f} ({top5.avg:.3f})'.format(

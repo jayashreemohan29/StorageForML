@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for batch in 16 32 256; do
+for batch in 512; do
 	# Ensure top, iostat blktrace are not running
 	sudo  kill $(pgrep blk)
 	kill $(pgrep iostat)
@@ -17,14 +17,19 @@ for batch in 16 32 256; do
 	#reset GPU
 	sudo nvidia-smi --gpu-reset
 	echo 'Start GPU state'
-	nvidia-smi -i 0
+	nvidia-smi
 	
 	name="bsz-$batch"
 	outfile="out-bsz-$batch.log"
 	echo "Training with batch size $batch"
-	python pytorch_imagenet.py --arch resnet50 -j 4 --epochs 1 -b $batch --print-freq 1 --run $name ../dataset/imagenet/ > $outfile 2>&1
+	python3 pytorch_imagenet.py --arch resnet50 -j 32 --epochs 1 -b $batch --print-freq 1 --run $name ../dataset/imagenet/ > $outfile 2>&1
 
-	dest="/dev/shm/results/run-$name/"
+	#reset GPU
+	sudo nvidia-smi --gpu-reset
+	echo 'End GPU state'
+	nvidia-smi
+	
+    dest="/dev/shm/results/run-$name/"
 	mv *.log $dest
 	mv *.tar $dest
 done 
