@@ -28,9 +28,6 @@ import shutil
 import time
 import warnings
 import subprocess
-import ctypes
-
-_cudart = ctypes.CDLL('libcudart.so')
 ##
 
 from absl import app as absl_app
@@ -357,6 +354,8 @@ def run_imagenet(flags_obj):
                     input_fn)
   print("batch size: ", flags_obj.batch_size)
   print("run argument: ",flags_obj.arg_run)
+  print("nvprof_start_epoch: ", flags_obj.nvprof_start_epoch)
+  print("nvprof_stop_epoch: ", flags_obj.nvprof_stop_epoch)
   resnet_run_loop.resnet_main(
       flags_obj, imagenet_model_fn, input_function, DATASET_NAME,
       shape=[_DEFAULT_IMAGE_SIZE, _DEFAULT_IMAGE_SIZE, _NUM_CHANNELS])
@@ -368,9 +367,7 @@ def main(_):
 
 
 if __name__ == '__main__':
-  _cudart.cudaProfilerStart()
   tf.logging.set_verbosity(tf.logging.INFO)
   #subprocess.call("rm /tmp/model.ckpt*", shell = True)
   define_imagenet_flags()
   absl_app.run(main)
-  _cudart.cudaProfilerStop()

@@ -31,6 +31,9 @@ import shutil
 import time
 import warnings
 import subprocess
+import ctypes
+
+_cudart = ctypes.CDLL('libcudart.so')
 ##
 
 import functools
@@ -89,7 +92,7 @@ def process_record_dataset(dataset,
   # Prefetches a batch at a time to smooth out the time taken to load input
   # files for shuffling and processing.
   dataset = dataset.prefetch(buffer_size=batch_size)
-  print ("dataset size PRE fetched: ", sys.getsizeof(dataset))
+  print ("dataset size PRE fetched: %d", sys.getsizeof(dataset))
   if is_training:
     # Shuffles records before repeating to respect epoch boundaries.
     dataset = dataset.shuffle(buffer_size=shuffle_buffer)
@@ -122,7 +125,7 @@ def process_record_dataset(dataset,
         threadpool.PrivateThreadPool(
             datasets_num_private_threads,
             display_name='input_pipeline_thread_pool'))
-  tf.logging.info("dataset size fetched: ", sys.getsizeof(dataset))
+  tf.logging.info("dataset size fetched: %d", sys.getsizeof(dataset))
   return dataset
 
 
@@ -354,13 +357,13 @@ def resnet_model_fn(features, labels, mode, model_class,
 
   features_shape = tf.shape(features)
   tf.identity(features_shape, name='features_shape')
-  tf.summary.scalar('features_shape', features_shape)
-  #tf.logging.info('features_shape %s',str(features_shape))
+  #tf.summary.scalar('features_shape', features_shape)
+  tf.logging.info('features_shape %s',str(features_shape))
 
   label_shape = tf.shape(labels)
   tf.identity(label_shape, name='label_shape')
-  tf.summary.scalar('label_shape', label_shape)
-  #tf.logging.info('label_shape %s',str(label_shape))
+  #tf.summary.scalar('label_shape', label_shape)
+  tf.logging.info('label_shape %s',str(label_shape))
   
   # Calculate loss, which includes softmax cross entropy and L2 regularization.
   cross_entropy = tf.losses.sparse_softmax_cross_entropy(
@@ -589,7 +592,6 @@ def resnet_main(
   subprocess.call("kill $(pgrep top)", shell=True)
   subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
   
-  
   for cycle_index, num_train_epochs in enumerate(schedule):
     tf.logging.info('Starting cycle: %d/%d', cycle_index, int(n_loops))
 
@@ -611,19 +613,26 @@ def resnet_main(
         command = "sudo blktrace -d /dev/sdb -o - | blkparse -i - > "
         command += result_dir + "/blktrace-train.txt &"
         subprocess.call(command, shell=True)
-        
+    
+        if(cycle_index == flags_obj.nvprof_start_epoch):
+            tf.logging.info("Starting profiler")
+            _cudart.cudaProfilerStart()
         classifier.train(input_fn=lambda: input_fn_train(num_train_epochs),
                        hooks=train_hooks, max_steps=flags_obj.max_train_steps)
-        
+       
+        end_prgm = time.time()
+        if(cycle_index == flags_obj.nvprof_stop_epoch):
+            tf.logging.info("Ending Profiler")
+            _cudart.cudaProfilerStop()
+        tf.logging.info("Total time taken by %d epoch %d", cycle_index, end_prgm - start_prgm)
+
         subprocess.call("sudo kill $(pgrep blk)", shell=True)
         subprocess.call("kill $(pgrep iostat)", shell=True)
         subprocess.call("sudo kill $(pgrep iotop)", shell=True)
         subprocess.call("kill $(pgrep top)", shell=True)
         subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
         
-        end_prgm = time.time()
-        print("\nTotal time taken : ", end_prgm - start_prgm)
-        
+
     tf.logging.info('Starting to evaluate.')
 
     # flags_obj.max_train_steps is generally associated with testing and
@@ -697,6 +706,16 @@ def define_resnet_flags(resnet_size_choices=None):
       name='arg_run', short_name='arg_run', default='1',
       help=flags_core.help_wrap(
           'value to change result directory to store system information'))
+
+  flags.DEFINE_integer(
+      name='nvprof_start_epoch', short_name='nv_start', default=50,
+      help=flags_core.help_wrap(
+          'epoch number to start profiling'))
+
+  flags.DEFINE_integer(
+      name='nvprof_stop_epoch', short_name='nv_stop', default=55,
+      help=flags_core.help_wrap(
+          'epoch number to stop profiling'))
   
   choice_kwargs = dict(
       name='resnet_size', short_name='rs', default='50',
