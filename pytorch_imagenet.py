@@ -66,11 +66,16 @@ parser.add_argument('--gpu', default=None, type=int,
                     help='GPU id to use.')
 parser.add_argument('--run', default='1', type=str,
                     help='Run number or run info that defines the result dir.')
+parser.add_argument('--numGPUs', default=None, type=int, metavar='N',
+                    help='Number of GPUs to use')
+
 best_acc1 = 0
 
 
+GPUs = {1: '0', 2:'1,2', 3:'1,0,3', 4:'0,1,2,3'}
+
 def main():
-    global args, best_acc1, result_dir
+    global args, best_acc1, result_dir, GPUs
     args = parser.parse_args()
     result_dir = "results/run-"
     start_prgm = time.time()
@@ -93,6 +98,11 @@ def main():
     if args.distributed:
         dist.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
                                 world_size=args.world_size)
+    
+    if args.numGPUs:
+        import os
+        os.environ['CUDA_VISIBLE_DEVICES']=GPUs[args.numGPUs]
+        print("CUDA VISIBLE DEVICES", os.environ['CUDA_VISIBLE_DEVICES'])
 
     # Create the result directory
     result_dir += args.run
@@ -205,12 +215,12 @@ def main():
         return
 
     import sys
-    print "TYPE OF DATASET: ", type(train_dataset), len(train_dataset), sys.getsizeof(train_dataset)
-    print "TYPE of ith in DATASET: ", type(train_dataset[0]), train_dataset[0][0].element_size(), train_dataset[0][0].nelement(), sys.getsizeof(train_dataset[0][1])
+    print("TYPE OF DATASET: ", type(train_dataset), len(train_dataset), sys.getsizeof(train_dataset))
+    print("TYPE of ith in DATASET: ", type(train_dataset[0]), train_dataset[0][0].element_size(), train_dataset[0][0].nelement(), sys.getsizeof(train_dataset[0][1]))
     #n = 1279867
     #print "TYPE of last in DATASET: ", type(train_dataset[n-1]), train_dataset[n-1][0].element_size(), train_dataset[n-1][0].nelement()
     1279867
-    print train_dataset[0]
+    print(train_dataset[0])
     #sys.exit()
 
     #subprocess.call("sudo kill $(pgrep blk)", shell=True)
@@ -246,7 +256,7 @@ def main():
         adjust_learning_rate(optimizer, epoch)
 
         command = "top -b >> "
-        command += result_dir + "/top-train.txt &"
+        command +=result_dir + "/top-train.txt &"
         subprocess.call(command, shell=True)
         command = "echo next epoch >> "
         command += result_dir + "/iostat-train.txt"
@@ -308,6 +318,7 @@ def train(train_loader, model, criterion, optimizer, epoch):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     to_gpu_time = AverageMeter()
+    process_time = AverageMeter()
     losses = AverageMeter()
     top1 = AverageMeter()
     top5 = AverageMeter()
@@ -315,21 +326,38 @@ def train(train_loader, model, criterion, optimizer, epoch):
     # switch to train mode
     model.train()
 
-    end = time.time()
+    import psutil
+    before_read_count = psutil.disk_io_counters(perdisk=True)['sdb'].read_count
+    before_read_bytes = psutil.disk_io_counters(perdisk=True)['sdb'].read_bytes
+    
+    currentDevices = torch.cuda.device_count()
+    print("CURRENT DEVICES ", currentDevices)
+
+    start_for_loop = time.time()
+    prev = start_for_loop
     for i, (input, target) in enumerate(train_loader):
         # measure data loading time
-        
-        data_time.update(time.time() - end)
+        end_for_loop = time.time()
+        data_time.update(end_for_loop - prev)
+
+        after_read_count = psutil.disk_io_counters(perdisk=True)['sdb'].read_count
+        after_read_bytes = psutil.disk_io_counters(perdisk=True)['sdb'].read_bytes
+        disk_io_count = after_read_count - before_read_count
+        disk_io_bytes = after_read_bytes - before_read_bytes
+
+        gpuMemUsage = torch.cuda.memory_allocated()
+        print("GPU MEMORY USAGE ", gpuMemUsage)
 
         if args.gpu is not None:
             input = input.cuda(args.gpu, non_blocking=True)
         target = target.cuda(args.gpu, non_blocking=True)
-        to_gpu_time.update(time.time() - end)
+        to_gpu_time.update(time.time() - end_for_loop)
+
         process_start = time.time()
         # compute output
         output = model(input)
         loss = criterion(output, target)
-
+        
         # measure accuracy and record loss
         acc1, acc5 = accuracy(output, target, topk=(1, 5))
         losses.update(loss.item(), input.size(0))
@@ -340,21 +368,33 @@ def train(train_loader, model, criterion, optimizer, epoch):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-
+        
+        process_time.update(time.time() - process_start)
         # measure elapsed time
-        batch_time.update(time.time() - process_start)
-        end = time.time()
+        batch_time.update(time.time() - prev)
 
         if i % args.print_freq == 0:
             print('Epoch: [{0}][{1}/{2}]\t'
-                  'Time {batch_time.val:.6f} ({batch_time.avg:.6f})\t'
-                  'Data {data_time.val:.6f} ({data_time.avg:.6f})\t'
-                  'GPU {to_gpu_time.val:.6f} ({to_gpu_time.avg:.6f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'Acc@1 {top1.val:.3f} ({top1.avg:.3f})\t'
-                  'Acc@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
-                   epoch, i, len(train_loader), batch_time=batch_time,
-                   data_time=data_time, to_gpu_time=to_gpu_time, loss=losses, top1=top1, top5=top5))
+                  'DiskIO {3},{4}\t'
+                  'BatchTime {batch_time.val:.6f} ({batch_time.avg:.6f})\t'
+                  'DataTime {data_time.val:.6f} ({data_time.avg:.6f})\t'
+                  'GPUProcessTime {process_time.val:.6f} ({process_time.avg:.6f})\t'
+                  'GPU {to_gpu_time.val:.6f} ({to_gpu_time.avg:.6f})\t'.format(
+                   epoch, i, len(train_loader), disk_io_count, disk_io_bytes, batch_time=batch_time,
+                   data_time=data_time, process_time=process_time, to_gpu_time=to_gpu_time))
+
+        prev = time.time()
+        #if i % args.print_freq == 0:
+        #    print('Epoch: [{0}][{1}/{2}]\t'
+        #          'DiskIO {3},{4}\t'
+        #          'BatchTime {batch_time.val:.6f} ({batch_time.avg:.6f})\t'
+        #          'DataTime {data_time.val:.6f} ({data_time.avg:.6f})\t'
+        #          'GPU {to_gpu_time.val:.6f} ({to_gpu_time.avg:.6f})\t'
+        #          'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+        #          'Acc@1 {top1.val:.3f} ({top1.avg:.3f})\t'
+        #          'Acc@5 {top5.val:.3f} ({top5.avg:.3f})'.format(
+        #           epoch, i, len(train_loader), disk_io_count, disk_io_bytes, batch_time=batch_time,
+        #           data_time=data_time, to_gpu_time=to_gpu_time, loss=losses, top1=top1, top5=top5))
 
 
 def validate(val_loader, model, criterion):

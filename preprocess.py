@@ -17,31 +17,31 @@ def run(command):
 
 cwd = os.getcwd()
 
-#copy the datasets
-#tars = [2]
-#fromPath = "/mnt/1tbssd/vision/vision_data/ImageNet/CLS_LOC2014/image_train_tar/"
-#toPath = "/mnt/ssd/datasets/"
-#os.chdir(toPath)
-#
-#for i in tars:
-#    cmd = "scp aastha@chennai.csres.utexas.edu:"+fromPath+"Tftar_"+str(i)+".tar.gz ."
-#    print cmd
-#    run(cmd)
-#    cmd = "tar -xvzf "+toPath+"Tftar_"+str(i)+".tar.gz"
-#    run(cmd)
-#    cmd = "rm -rf "+toPath+"Tftar_"+str(i)+".tar.gz"
-#    run(cmd)
-##    if(i != len(tars)-1):
-##	  #cmd = "mkdir /dev/shm/tar_bkp"
-##	  #run(cmd)
-##	  cmd = "mv "+toPath+"* /dev/shm/tar_bkp/."
-##	  run(cmd)
-#
-##cmd = "mv /dev/shm/tar_bkp/* "+toPath+"."
-##run(cmd)
-#
-#os.chdir(cwd)
-#print(os.getcwd())
+copy the datasets
+tars = [1,2]
+fromPath = "/mnt/1tbssd/vision/vision_data/ImageNet/CLS_LOC2014/image_train_tar/"
+toPath = "/mnt/ssd/datasets/"
+os.chdir(toPath)
+
+for i in tars:
+    cmd = "scp aastha@chennai.csres.utexas.edu:"+fromPath+"tar_"+str(i)+".tar.gz ."
+    print cmd
+    run(cmd)
+    cmd = "tar -xvzf "+toPath+"tar_"+str(i)+".tar.gz"
+    run(cmd)
+    cmd = "rm -rf "+toPath+"tar_"+str(i)+".tar.gz"
+    run(cmd)
+#    if(i != len(tars)-1):
+#	  #cmd = "mkdir /dev/shm/tar_bkp"
+#	  #run(cmd)
+#	  cmd = "mv "+toPath+"* /dev/shm/tar_bkp/."
+#	  run(cmd)
+
+#cmd = "mv /dev/shm/tar_bkp/* "+toPath+"."
+#run(cmd)
+
+os.chdir(cwd)
+print(os.getcwd())
 
     
 #tf_code 
