@@ -68,11 +68,14 @@ parser.add_argument('--run', default='1', type=str,
                     help='Run number or run info that defines the result dir.')
 parser.add_argument('--numGPUs', default=None, type=int, metavar='N',
                     help='Number of GPUs to use')
-
+parser.add_argument('--mode', default='Run', type=str,
+                    help='What mode is the code running.')
+parser.add_argument('--break-point', default=1, type=int,
+                    metavar='N', help='batch size (default: 1) to test')
 best_acc1 = 0
 
 
-GPUs = {1: '0', 2:'1,2', 3:'1,0,3', 4:'0,1,2,3'}
+GPUs = {1: '0', 2:'0,1', 3:'0,1,2', 4:'0,1,2,3'}
 
 def main():
     global args, best_acc1, result_dir, GPUs
@@ -287,22 +290,22 @@ def main():
         subprocess.call("kill $(pgrep nvidia-smi)", shell=True)
 
         # evaluate on validation set
-        acc1 = validate(val_loader, model, criterion)
+        #acc1 = validate(val_loader, model, criterion)
 
         # remember best acc@1 and save checkpoint
-        is_best = acc1 > best_acc1
-        best_acc1 = max(acc1, best_acc1)
-        save_checkpoint({
-            'epoch': epoch + 1,
-            'arch': args.arch,
-            'state_dict': model.state_dict(),
-            'best_acc1': best_acc1,
-            'optimizer' : optimizer.state_dict(),
-        }, is_best)
-        print('Accuracy in the epoch: ',acc1)
-        if(best_acc1 > 72):
-            print("best accuracy acheived", best_acc1)
-            break;
+        #is_best = acc1 > best_acc1
+        #best_acc1 = max(acc1, best_acc1)
+        #save_checkpoint({
+        #    'epoch': epoch + 1,
+        #    'arch': args.arch,
+        #    'state_dict': model.state_dict(),
+        #    'best_acc1': best_acc1,
+        #    'optimizer' : optimizer.state_dict(),
+        #}, is_best)
+        #print('Accuracy in the epoch: ',acc1)
+        #if(best_acc1 > 72):
+        #    print("best accuracy acheived", best_acc1)
+        #    break;
 
     #subprocess.call("sudo kill $(pgrep blk)", shell=True)
     subprocess.call("kill $(pgrep iostat)", shell=True)
@@ -345,8 +348,13 @@ def train(train_loader, model, criterion, optimizer, epoch):
         disk_io_count = after_read_count - before_read_count
         disk_io_bytes = after_read_bytes - before_read_bytes
 
-        gpuMemUsage = torch.cuda.memory_allocated()
-        print("GPU MEMORY USAGE ", gpuMemUsage)
+        #gpuMaxUsage = torch.cuda.max_memory_allocated()
+        #gpuMemUsage = torch.cuda.memory_allocated()
+        #print("GPU MEMORY USAGE ", gpuMemUsage, gpuMaxUsage)
+
+        #gpuMaxCache = torch.cuda.max_memory_cached()
+        #gpuMemCache = torch.cuda.memory_cached()
+        #print("GPU MEMORY CACHED ", gpuMemCache, gpuMaxCache)
 
         if args.gpu is not None:
             input = input.cuda(args.gpu, non_blocking=True)
@@ -355,7 +363,9 @@ def train(train_loader, model, criterion, optimizer, epoch):
 
         process_start = time.time()
         # compute output
+        print("input size ", input.size(), input.nelement()*input.element_size())
         output = model(input)
+        print("output size ", output.size(), output.nelement()*output.element_size())
         loss = criterion(output, target)
         
         # measure accuracy and record loss
@@ -383,6 +393,18 @@ def train(train_loader, model, criterion, optimizer, epoch):
                    epoch, i, len(train_loader), disk_io_count, disk_io_bytes, batch_time=batch_time,
                    data_time=data_time, process_time=process_time, to_gpu_time=to_gpu_time))
 
+        if args.mode == 'Optimize':
+            if  i == args.break_point:
+                break;
+        
+        gpuMaxUsage = torch.cuda.max_memory_allocated()
+        gpuMemUsage = torch.cuda.memory_allocated()
+        print("GPU MEMORY USAGE ", gpuMemUsage, gpuMaxUsage)
+
+        gpuMaxCache = torch.cuda.max_memory_cached()
+        gpuMemCache = torch.cuda.memory_cached()
+        print("GPU MEMORY CACHED ", gpuMemCache, gpuMaxCache)
+        
         prev = time.time()
         #if i % args.print_freq == 0:
         #    print('Epoch: [{0}][{1}/{2}]\t'
